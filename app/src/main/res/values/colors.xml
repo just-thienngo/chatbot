@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Màu cơ bản -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Màu chính và phụ -->
+    <color name="primary">#6200EE</color> <!-- Màu tím đậm -->
+    <color name="primary_variant">#3700B3</color>
+    <color name="secondary">#03DAC5</color> <!-- Màu ngọc lam nhạt -->
+    <color name="secondary_variant">#018786</color>
+
+    <!-- Màu cảnh báo và lỗi -->
+    <color name="error">#B00020</color> <!-- Màu đỏ lỗi -->
+    <color name="warning">#FFA000</color> <!-- Màu vàng cảnh báo -->
+    <color name="success">#4CAF50</color> <!-- Màu xanh thành công -->
+
+    <!-- Màu nền và bề mặt -->
+    <color name="background">#F5F5F5</color> <!-- Màu xám nền nhẹ -->
+    <color name="surface">#FFFFFF</color> <!-- Màu trắng cho bề mặt -->
+
+    <!-- Màu văn bản -->
+    <color name="text_primary">#212121</color> <!-- Văn bản chính -->
+    <color name="text_secondary">#757575</color> <!-- Văn bản phụ -->
+    <color name="text_disabled">#BDBDBD</color> <!-- Văn bản bị vô hiệu -->
+
+    <!-- Màu trong suốt hoặc có độ trong -->
+    <color name="transparent">#00000000</color> <!-- Màu trong suốt -->
+    <color name="half_transparent">#80000000</color> <!-- Đen 50% độ mờ -->
+
+    <!-- Một số màu bổ sung khác -->
+    <color name="blue">#2196F3</color>
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="orange">#FF9800</color>
+    <color name="purple">#9C27B0</color>
+    <color name="pink">#E91E63</color>
+</resources>
