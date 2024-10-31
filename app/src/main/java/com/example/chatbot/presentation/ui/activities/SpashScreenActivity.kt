@@ -1,17 +1,16 @@
-package com.example.chatbot.presentation.ui
+package com.example.chatbot.presentation.ui.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.chatbot.R
 
-class MainActivity : AppCompatActivity() {
+class SpashScreenActivity: AppCompatActivity()  {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.fragment_signup)
+        setContentView(R.layout.activity_spash_screen)
 
     }
 }
