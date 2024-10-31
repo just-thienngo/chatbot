@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ChatBot</string>
+    <string name="tittelLaunch">The Future of Chat is Here With AI Technology</string>
+    <string name="contentLaunch">
+        "The future of chat is here with AI technology" implies that the integration of AI into chat
+        technology is already happening and that its an
+        exciting development for the way we communicate.
+        AI-powered chatbots are becoming increasingly sophisticated and are able to
+        understand and respond to natural language,.</string>
 </resources>
