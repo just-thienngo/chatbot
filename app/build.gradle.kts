@@ -39,6 +39,7 @@ android {
 val lifecycle_version = "2.8.6"
 val arch_version = "2.2.0"
 val room_version = "2.6.1"
+val nav_version = "2.8.0"
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -69,4 +70,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // Jetpack Compose integration
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // Views/Fragments integration
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
 }
