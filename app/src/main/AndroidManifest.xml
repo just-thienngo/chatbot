@@ -14,7 +14,7 @@
         android:theme="@style/Theme.ChatBot"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.activities.SpashScreenActivity"
+            android:name=".presentation.ui.activities.LoginRegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
