@@ -1,30 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_primary"
     tools:context=".presentation.ui.MainActivity">
 
     <LinearLayout
+        android:id="@+id/ln_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/text_primary"
-        >
-       <TextView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="ChatAI"
-           android:textColor="@color/white"
-           android:textSize="50dp"
-           android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
 
-           />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ChatAI"
+            android:textColor="@color/white"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:fontFamily="@font/league_spartan" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please Login To Your Account"
+            android:textColor="@color/text_secondary"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/ln_imgButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            >
+
+            <ImageButton
+                android:id="@+id/img_google"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_google"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <ImageButton
+                android:id="@+id/img_facebook"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_facebook"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <ImageButton
+                android:id="@+id/img_apple"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_apple"
+                android:background="?android:attr/selectableItemBackground" />
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/img_or"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_or"
+            android:layout_marginTop="50dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="30dp"
+            android:layout_marginTop="50dp">
+
+
+            <LinearLayout
+                android:id="@+id/ln_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/tv_custom"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="30dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_person"
+                    android:contentDescription="User Icon"
+                    android:layout_gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/surface"
+                    android:textColorHint="@color/surface"
+                    android:hint="Enter Your Email"
+                    android:inputType="textPersonName"
+                    android:layout_marginTop="6dp"
+                    android:textSize="12dp"
+                    android:paddingStart="8dp"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+
+            <!-- Password Field -->
+            <LinearLayout
+                android:id="@+id/ln_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/tv_custom"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_lock"
+                    android:contentDescription="Password Icon"
+                    android:layout_gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter Your Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    android:textColor="@color/surface"
+                    android:textColorHint="@color/surface"
+                    android:textSize="12dp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Forget Password?"
+                android:textColor="@color/red"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                />
+
+           <ImageView
+                android:id="@+id/img_login"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@drawable/btn_login"
+               android:layout_marginTop="30dp"
+               />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don’t Have Account?"
+                android:gravity="center"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:textColor="@color/red"
+                android:paddingStart="4dp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
