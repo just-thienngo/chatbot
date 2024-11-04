@@ -13,7 +13,8 @@
         >
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/from_bottom" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -23,7 +24,8 @@
         >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/from_bottom" />
     </fragment>
     <fragment
         android:id="@+id/introductionFragment"
@@ -33,6 +35,7 @@
         >
         <action
             android:id="@+id/action_introductionFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/from_right" />
     </fragment>
 </navigation>
