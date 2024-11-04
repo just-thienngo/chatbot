@@ -80,4 +80,7 @@ dependencies {
     // Views/Fragments integration
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
+
+    //Loading Button
+    implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
 }
