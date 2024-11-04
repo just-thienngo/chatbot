@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/text_primary"
-    tools:context=".presentation.ui.MainActivity">
+    tools:context=".presentation.ui.activities.LoginRegisterActivity">
 
     <LinearLayout
         android:id="@+id/ln_textView"
