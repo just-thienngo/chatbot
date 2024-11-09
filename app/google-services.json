@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "652753919184",
+    "project_id": "chatbot-cbf32",
+    "storage_bucket": "chatbot-cbf32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652753919184:android:a2af1c4d666c494066d2d5",
+        "android_client_info": {
+          "package_name": "com.example.chatbot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB_DSV8EGTiwNyuwzn6e9wa1gn4CN9vn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
