@@ -8,6 +8,7 @@
     android:background="@color/text_primary"
     >
 
+
     <LinearLayout
         android:id="@+id/ln_textView"
         android:layout_width="match_parent"

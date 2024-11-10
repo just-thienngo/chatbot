@@ -9,23 +9,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentLoginBinding
+import com.example.chatbot.presentation.viewmodels.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private val RC_SIGN_IN = 9001
-    private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +41,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
 
         // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -57,6 +58,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.imgGoogle.setOnClickListener {
             signIn()
         }
+
+        // Observe login result
+        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun signIn() {
@@ -74,26 +84,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 val account = task.getResult(ApiException::class.java)
                 if (account != null) {
                     // Authentication successful, proceed
-                    firebaseAuthWithGoogle(account)
+                    loginViewModel.firebaseAuthWithGoogle(account)
                 }
             } catch (e: ApiException) {
                 Log.w(TAG, "Google sign-in failed: ${e.statusCode}")
                 Toast.makeText(context, "Google sign-in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    // Sign-in success, show a toast message
-                    Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
-                } else {
-                    // If sign-in fails, display a message to the user.
-                    Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 }
