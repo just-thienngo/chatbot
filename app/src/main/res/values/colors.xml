@@ -36,4 +36,8 @@
     <color name="orange">#FF9800</color>
     <color name="purple">#9C27B0</color>
     <color name="pink">#E91E63</color>
+
+    <color name="com_facebook_button_background_color_focused_disabled">#D8D8D8</color>
+    <color name="com_facebook_button_background_color_focused">#3b5998</color>
+    <color name="com_facebook_button_border_color_focused">#3b5998</color>
 </resources>
