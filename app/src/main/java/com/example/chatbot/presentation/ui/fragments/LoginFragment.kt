@@ -2,6 +2,7 @@ package com.example.chatbot.presentation.ui.fragments
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,13 +26,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthCredential
+import com.google.firebase.auth.OAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private val RC_SIGN_IN = 9001
+    private val RC_GITHUB_SIGN_IN = 9002
     private lateinit var googleSignInClient: GoogleSignInClient
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var callbackManager: CallbackManager
@@ -89,6 +94,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             signInWithGoogle()
         }
 
+        binding.imgGithub.setOnClickListener {
+            signInWithGithub()
+
+        }
+
         // Observe login result
         loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
             if (isSuccess) {
@@ -102,6 +112,56 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         })
     }
+
+    private fun signInWithGithub() {
+        val provider = OAuthProvider.newBuilder("github.com")
+        val pendingResultTask = FirebaseAuth.getInstance().pendingAuthResult
+        if (pendingResultTask != null) {
+            // There's something already here! Finish the sign-in for your user.
+            pendingResultTask
+                .addOnSuccessListener { authResult ->
+                    // User is signed in.
+                    val credential = authResult.credential as OAuthCredential
+                    val accessToken = credential.accessToken
+                    accessToken?.let {
+                        loginViewModel.signInWithGithub(it)
+                    } ?: run {
+                        Toast.makeText(context, "GitHub access token is null", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Handle failure.
+                    if (e.message?.contains("The web operation was canceled by the user") == true) {
+                        Toast.makeText(context, "GitHub sign-in canceled by user.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "GitHub sign-in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        } else {
+            // There's no pending result so you need to start the sign-in flow.
+            FirebaseAuth.getInstance()
+                .startActivityForSignInWithProvider(requireActivity(), provider.build())
+                .addOnSuccessListener { authResult ->
+                    // User is signed in.
+                    val credential = authResult.credential as OAuthCredential
+                    val accessToken = credential.accessToken
+                    accessToken?.let {
+                        loginViewModel.signInWithGithub(it)
+                    } ?: run {
+                        Toast.makeText(context, "GitHub access token is null", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Handle failure.
+                    if (e.message?.contains("The web operation was canceled by the user") == true) {
+                        Toast.makeText(context, "GitHub sign-in canceled by user.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "GitHub sign-in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+    }
+
 
 
     private fun signInWithGoogle() {
@@ -129,5 +189,20 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 Toast.makeText(context, "Google sign-in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
             }
         }
+        // Handle GitHub login result
+        if (requestCode == RC_GITHUB_SIGN_IN) {
+            val uri = data?.data
+            if (uri != null && uri.toString().startsWith("https://chatbot-cbf32.firebaseapp.com/__/auth/handler")) {
+                val code = uri.getQueryParameter("code")
+                if (code != null) {
+                    // Exchange the code for an access token
+                    exchangeGithubCodeForToken(code)
+                }
+            }
+        }
+    }
+
+    private fun exchangeGithubCodeForToken(code: String) {
+
     }
 }

@@ -3,10 +3,13 @@ package com.example.chatbot.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import com.example.chatbot.data.repository.FacebookAuthRepositoryImpl
+import com.example.chatbot.data.repository.GithubAuthRepositoryImpl
 import com.example.chatbot.data.repository.GoogleAuthRepositoryImpl
 import com.example.chatbot.domain.repository.AuthRepositoryWithFacebook
+import com.example.chatbot.domain.repository.AuthRepositoryWithGithub
 import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
 import com.example.chatbot.domain.usecase.FacebookSignInUseCase
+import com.example.chatbot.domain.usecase.GithubSignInUseCase
 import com.example.chatbot.domain.usecase.GoogleSignInUseCase
 import com.example.chatbot.presentation.utils.Constants.INTRODUCTION_SP
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +29,9 @@ object AppModule {
     fun provideFacebookAuthRepository(): AuthRepositoryWithFacebook = FacebookAuthRepositoryImpl()
 
     @Provides
+    fun provideGithubAuthRepository(firebaseAuth: FirebaseAuth): AuthRepositoryWithGithub =
+        GithubAuthRepositoryImpl(firebaseAuth)
+    @Provides
     fun provideGoogleSignInUseCase(authRepositoryWithGoogle: AuthRepositoryWithGoogle): GoogleSignInUseCase {
         return GoogleSignInUseCase(authRepositoryWithGoogle)
     }
@@ -33,6 +39,10 @@ object AppModule {
     @Provides
     fun provideFacebookSignInUseCase(authRepositoryWithFacebook: AuthRepositoryWithFacebook): FacebookSignInUseCase {
         return FacebookSignInUseCase(authRepositoryWithFacebook)
+    }
+    @Provides
+    fun provideGithubSignInUseCase(authRepositoryWithGithub: AuthRepositoryWithGithub): GithubSignInUseCase {
+        return GithubSignInUseCase(authRepositoryWithGithub)
     }
 
     @Provides
