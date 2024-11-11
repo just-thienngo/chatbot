@@ -1,10 +1,10 @@
 package com.example.chatbot.domain.usecase
 
-import com.example.chatbot.domain.repository.AuthRepository
+import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
-class GoogleSignInUseCase(private val authRepository: AuthRepository) {
+class GoogleSignInUseCase(private val authRepositoryWithGoogle: AuthRepositoryWithGoogle) {
     suspend operator fun invoke(account: GoogleSignInAccount): Boolean {
-        return authRepository.signInWithGoogle(account)
+        return authRepositoryWithGoogle.signInWithGoogle(account)
     }
 }
