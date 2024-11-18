@@ -13,6 +13,8 @@ import com.example.chatbot.domain.usecase.GithubSignInUseCase
 import com.example.chatbot.domain.usecase.GoogleSignInUseCase
 import com.example.chatbot.presentation.utils.Constants.INTRODUCTION_SP
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +29,10 @@ object AppModule {
 
     @Provides
     fun provideFacebookAuthRepository(): AuthRepositoryWithFacebook = FacebookAuthRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore() = Firebase.firestore
 
     @Provides
     fun provideGithubAuthRepository(firebaseAuth: FirebaseAuth): AuthRepositoryWithGithub =

@@ -4,10 +4,15 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
-
 }
+
 buildscript {
     repositories {
         google()
         mavenCentral()
-    }}
+    }
+    dependencies {
+        classpath("com.google.android.gms:play-services-measurement:21.2.0")
+        classpath("com.google.firebase:firebase-analytics:21.2.0")
+    }
+}

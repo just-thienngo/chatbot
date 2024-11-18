@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -93,9 +94,13 @@ dependencies {
 
     implementation("com.google.firebase:firebase-analytics")
 
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.android.gms:play-services-auth:latest.release")
 
-    implementation ("com.facebook.android:facebook-login:latest.release")
+    implementation ("com.google.android.gms:play-services-measurement:21.2.0")
+
+    implementation ("com.google.firebase:firebase-analytics:21.2.0")
+    implementation ("com.google.android.gms:play-services-auth:20.0.0")
+
     implementation ("com.facebook.android:facebook-android-sdk:[4,5)")
 
 }
