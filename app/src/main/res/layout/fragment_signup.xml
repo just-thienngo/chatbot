@@ -31,39 +31,7 @@
             android:textColor="@color/text_secondary"
             android:gravity="center" />
 
-        <LinearLayout
-            android:id="@+id/ln_imgButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="50dp"
-            >
 
-            <ImageButton
-                android:id="@+id/img_google"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_google"
-                android:background="?android:attr/selectableItemBackground" />
-
-            <ImageButton
-                android:id="@+id/img_facebook"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_facebook"
-                android:background="?android:attr/selectableItemBackground" />
-
-            <ImageButton
-                android:id="@+id/img_apple"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_apple"
-                android:background="?android:attr/selectableItemBackground" />
-
-        </LinearLayout>
         <ImageView
             android:id="@+id/img_or"
             android:layout_width="match_parent"
@@ -100,7 +68,7 @@
                     android:layout_gravity="center_vertical" />
 
                 <EditText
-                    android:id="@+id/et_username"
+                    android:id="@+id/edFullName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -132,7 +100,7 @@
                     android:layout_gravity="center_vertical" />
 
                 <EditText
-                    android:id="@+id/et_email"
+                    android:id="@+id/edEmailRegister"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -164,7 +132,7 @@
                     android:layout_gravity="center_vertical" />
 
                 <EditText
-                    android:id="@+id/et_password"
+                    android:id="@+id/edPasswordRegister"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -178,25 +146,16 @@
                     android:textSize="12dp" />
             </LinearLayout>
 
-       <LinearLayout
-           android:id="@+id/ln_signup"
-           android:layout_width="355dp"
-           android:layout_height="53dp"
-           android:background="@drawable/btn_custom"
-           android:gravity="center"
-           android:layout_marginTop="30dp"
-           >
-            <TextView
-                android:id="@+id/tv_signup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Create Account"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:gravity="center"
-                />
 
-       </LinearLayout>
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_signup"
+                android:layout_width="355dp"
+                android:layout_height="53dp"
+                android:background="@drawable/btn_custom"
+                android:text="Create Account"
+                android:layout_marginTop="50dp"
+                app:spinning_bar_color="@color/text_primary"
+                />
 
 
         </LinearLayout>
@@ -209,6 +168,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_have_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already Have Account?"
@@ -231,5 +191,6 @@
 
 
     </LinearLayout>
+
 
 </LinearLayout>

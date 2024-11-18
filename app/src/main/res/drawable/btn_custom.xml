@@ -1,9 +1,5 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="355dp"
-    android:height="53dp"
-    android:viewportWidth="355"
-    android:viewportHeight="53">
-  <path
-      android:pathData="M20,0L335,0A20,20 0,0 1,355 20L355,33A20,20 0,0 1,335 53L20,53A20,20 0,0 1,0 33L0,20A20,20 0,0 1,20 0z"
-      android:fillColor="#D71E1E"/>
-</vector>
+<!-- res/drawable/button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="#D71E1E" />
+  <corners android:radius="20dp" />
+</shape>
