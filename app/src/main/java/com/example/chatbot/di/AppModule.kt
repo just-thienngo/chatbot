@@ -2,6 +2,8 @@ package com.example.chatbot.di
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
+import com.example.chatbot.data.remote.ChatApiService
+import com.example.chatbot.data.remote.ChatApiServiceImpl
 import com.example.chatbot.data.repository.FacebookAuthRepositoryImpl
 import com.example.chatbot.data.repository.GithubAuthRepositoryImpl
 import com.example.chatbot.data.repository.GoogleAuthRepositoryImpl
@@ -19,6 +21,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -59,5 +62,17 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+    // Add this method to provide ChatApiService
+    @Provides
+    @Singleton
+    fun provideChatApiService(client: OkHttpClient): ChatApiService {
+        return ChatApiServiceImpl(client)
+    }
 
+    // Provide OkHttpClient
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().build()
+    }
 }
