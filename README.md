@@ -6,6 +6,8 @@
 ![Screenshot 2024-11-04 163302](https://github.com/user-attachments/assets/b4c06e1a-966a-4cc9-bfe1-8993d108e44e)
 ![image](https://github.com/user-attachments/assets/190bf543-3cbc-4847-836e-aaa9df144604)
 
+### Figma: https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0
+
 
 
 
