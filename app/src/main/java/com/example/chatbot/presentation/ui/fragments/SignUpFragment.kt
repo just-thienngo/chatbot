@@ -66,7 +66,7 @@ class SignUpFragment : Fragment(R.layout.fragment_signup) {
                     }
                     is Resource.Success -> {
                             binding.btnSignup.revertAnimation()
-
+                            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
                     }
                     is Resource.Error -> {
                             binding.btnSignup.revertAnimation()

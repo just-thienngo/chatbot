@@ -32,7 +32,7 @@ class ChatApiServiceImpl @Inject constructor(
             }
 
             val request = Request.Builder()
-                .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY")
+                .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=")
                 .post(RequestBody.create(JSON, jsonBody.toString()))
                 .build()
 
