@@ -6,7 +6,8 @@
 ![Screenshot 2024-11-04 163302](https://github.com/user-attachments/assets/b4c06e1a-966a-4cc9-bfe1-8993d108e44e)
 
 
-### Figma: https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0
+### <a href="https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0" target="_blank">Figma: ChatAI - AI Chatbot UI</a>
+
 
 
 
