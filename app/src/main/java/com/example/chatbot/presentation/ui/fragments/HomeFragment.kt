@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentHomeBinding
-import com.example.chatbot.presentation.adapters.ChatItemAdapter
+import com.example.chatbot.presentation.adapters.DayChatHistoryAdapter
 import com.example.chatbot.presentation.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -21,7 +21,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var chatItemAdapter: ChatItemAdapter
+    private lateinit var dayChatHistoryAdapter: DayChatHistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +40,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupRecyclerView() {
-        chatItemAdapter = ChatItemAdapter(emptyList())
+        dayChatHistoryAdapter = DayChatHistoryAdapter(emptyList(), onDeleteChat = {
+            // we will implement deleteChat method
+        })
         binding.rcvTimechat.apply {
-            adapter = chatItemAdapter
+            adapter = dayChatHistoryAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -53,13 +55,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
     private fun observeViewModel() {
-        viewModel.chats.observe(viewLifecycleOwner){ chats ->
-            Log.d("HomeFragment", "observeViewModel: chats=$chats")
-            val sortedChats = chats.sortedByDescending {
-                it.timestamp
+        viewModel.chatHistory.observe(viewLifecycleOwner){ chatHistory ->
+            Log.d("HomeFragment", "observeViewModel: chats=$chatHistory")
+            val sortedChats = chatHistory.sortedByDescending {
+                it.date
             }
-            chatItemAdapter = ChatItemAdapter(sortedChats)
-            binding.rcvTimechat.adapter = chatItemAdapter
+            dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
+                viewModel.deleteChat(chatId)
+            })
+            binding.rcvTimechat.adapter = dayChatHistoryAdapter
         }
     }
 }
