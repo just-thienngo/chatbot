@@ -42,6 +42,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupRecyclerView() {
         dayChatHistoryAdapter = DayChatHistoryAdapter(emptyList(), onDeleteChat = {
             // we will implement deleteChat method
+        }, onChatClick = { chatId ->
+            findNavController().navigate(
+                R.id.action_homeFragment_to_chatFragment,
+                Bundle().apply {
+                    putString("chatId", chatId)
+                })
         })
         binding.rcvTimechat.apply {
             adapter = dayChatHistoryAdapter
@@ -64,6 +70,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
                 viewModel.deleteChat(chatId)
+            }, onChatClick = { chatId ->
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_chatFragment,
+                    Bundle().apply {
+                        putString("chatId", chatId)
+                    })
             })
             binding.rcvTimechat.adapter = dayChatHistoryAdapter
         }
