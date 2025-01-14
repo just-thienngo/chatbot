@@ -1,3 +1,4 @@
+
 package com.example.chatbot.presentation.viewmodels
 
 import android.util.Log
@@ -32,7 +33,10 @@ class ChatViewModel @Inject constructor(
     companion object {
         private const val TAG = "ChatViewModel"
     }
-
+    fun setChatId(chatId: String){
+        currentChatId = chatId
+        fetchMessages()
+    }
     fun sendMessage(message: String) {
         viewModelScope.launch {
             if (currentChatId == null) {

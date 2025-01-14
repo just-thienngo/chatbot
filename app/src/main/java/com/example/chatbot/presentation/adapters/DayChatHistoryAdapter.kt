@@ -14,7 +14,8 @@ import java.util.concurrent.TimeUnit
 
 class DayChatHistoryAdapter(
     private val chatHistoryItemList: List<ChatHistoryItem>,
-    private val onDeleteChat: (String) -> Unit
+    private val onDeleteChat: (String) -> Unit,
+    private val onChatClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<DayChatHistoryAdapter.ChatHistoryViewHolder>() {
 
@@ -24,16 +25,22 @@ class DayChatHistoryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatHistoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_day_chat_history, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_day_chat_history, parent, false)
         return ChatHistoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ChatHistoryViewHolder, position: Int) {
         val chatHistoryItem = chatHistoryItemList[position]
-        val lastMessageTime = chatHistoryItem.chats.maxByOrNull { it.timestamp?.time ?: 0 }?.timestamp
+        val lastMessageTime =
+            chatHistoryItem.chats.maxByOrNull { it.timestamp?.time ?: 0 }?.timestamp
         holder.timeTextView.text = getTimeAgo(lastMessageTime)
 
-        val chatItemAdapter = ChatItemAdapter(chatHistoryItem.chats, onDeleteChat = onDeleteChat)
+        val chatItemAdapter = ChatItemAdapter(
+            chatHistoryItem.chats,
+            onDeleteChat = onDeleteChat,
+            onChatClick = onChatClick
+        )
         holder.chatHistoryRecyclerView.apply {
             adapter = chatItemAdapter
             layoutManager = LinearLayoutManager(context)
@@ -41,14 +48,15 @@ class DayChatHistoryAdapter(
     }
 
     private fun getTimeAgo(date: Date?): String {
-        if(date == null) return "Unknown"
+        if (date == null) return "Unknown"
         val now = Date()
         val diffInMillis = now.time - date.time
         val calendar = Calendar.getInstance()
         calendar.time = date
 
         val nowCalendar = Calendar.getInstance()
-        val diffDays = TimeUnit.MILLISECONDS.toDays(nowCalendar.timeInMillis - calendar.timeInMillis)
+        val diffDays =
+            TimeUnit.MILLISECONDS.toDays(nowCalendar.timeInMillis - calendar.timeInMillis)
 
         val seconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
@@ -65,6 +73,7 @@ class DayChatHistoryAdapter(
                 hours < 24 -> "$hours giờ trước"
                 else -> "hôm nay"
             }
+
             diffDays == 1L -> "Hôm qua"
             days < 7 -> "$days ngày trước"
             weeks < 4 -> "$weeks tuần trước"

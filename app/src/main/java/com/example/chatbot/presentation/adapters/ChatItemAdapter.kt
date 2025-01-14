@@ -11,7 +11,9 @@ import com.example.chatbot.R
 import com.example.chatbot.data.model.Chat
 
 class ChatItemAdapter(private val chatList: List<Chat>,
-                      private val onDeleteChat: (String) -> Unit
+                      private val onDeleteChat: (String) -> Unit,
+                      private val onChatClick: (String) -> Unit
+
 ) :
     RecyclerView.Adapter<ChatItemAdapter.ChatItemViewHolder>() {
 
@@ -32,6 +34,11 @@ class ChatItemAdapter(private val chatList: List<Chat>,
         holder.deleteImageView.setOnClickListener{
             chat.chatId?.let { chatId ->
                 onDeleteChat(chatId)
+            }
+        }
+        holder.itemView.setOnClickListener{
+            chat.chatId?.let { chatId ->
+                onChatClick(chatId)
             }
         }
     }
