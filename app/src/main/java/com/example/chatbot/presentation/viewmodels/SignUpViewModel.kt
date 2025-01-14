@@ -37,9 +37,9 @@ class SignUpViewModel @Inject constructor(
             viewModelScope.launch {
                 _register.emit(Resource.Loading())
                 firebaseAuth.createUserWithEmailAndPassword(user.email, password)
-                    .addOnSuccessListener {
-                        it.user?.let {
-                            saveUserInfo(it.uid, user)
+                    .addOnSuccessListener { authResult ->
+                        authResult.user?.let { firebaseUser ->
+                            saveUserInfo(firebaseUser.uid, user)
                         }
                     }
                     .addOnFailureListener {

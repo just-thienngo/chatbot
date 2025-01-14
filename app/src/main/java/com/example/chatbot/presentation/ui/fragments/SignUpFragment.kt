@@ -1,5 +1,5 @@
-
 package com.example.chatbot.presentation.ui.fragments
+
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -18,9 +18,11 @@ import com.example.chatbot.databinding.FragmentSignupBinding
 import com.example.chatbot.presentation.utils.RegisterValidation
 import com.example.chatbot.presentation.utils.Resource
 import com.example.chatbot.presentation.viewmodels.SignUpViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.fragment_signup) {
@@ -65,11 +67,11 @@ class SignUpFragment : Fragment(R.layout.fragment_signup) {
                         binding.btnSignup.startAnimation()
                     }
                     is Resource.Success -> {
-                            binding.btnSignup.revertAnimation()
-                            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                        binding.btnSignup.revertAnimation()
+                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
                     }
                     is Resource.Error -> {
-                            binding.btnSignup.revertAnimation()
+                        binding.btnSignup.revertAnimation()
                     }
                     else -> Unit
                 }
