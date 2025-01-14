@@ -58,7 +58,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.chatHistory.observe(viewLifecycleOwner){ chatHistory ->
             Log.d("HomeFragment", "observeViewModel: chats=$chatHistory")
             val sortedChats = chatHistory.sortedByDescending {
-                it.date
+                it.chats.maxByOrNull { chat ->
+                    chat.timestamp?.time ?: 0
+                }?.timestamp
             }
             dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
                 viewModel.deleteChat(chatId)
