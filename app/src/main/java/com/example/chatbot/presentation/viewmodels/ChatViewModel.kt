@@ -31,20 +31,12 @@ class ChatViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private var currentChatId: String? = null
-    private val user = firebaseAuth.currentUser
-    private var fullName: String = "Unknown"
-    private var email: String = "Unknown"
+    private val userUid = firebaseAuth.currentUser?.uid
 
     companion object {
         private const val TAG = "ChatViewModel"
     }
 
-    init {
-        user?.uid?.let { fetchUser(it) }
-        user?.let {
-            email = it.email ?: "Unknown"
-        }
-    }
 
     fun setChatId(chatId: String){
         currentChatId = chatId
@@ -83,7 +75,7 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun addMessageToFirestore(message: Message, chatId: String) {
-        val chatDocument =  user?.uid?.let {  firestore.collection("users").document(it)
+        val chatDocument =  userUid?.let {  firestore.collection("users").document(it)
             .collection("chats").document(chatId)
         }
         chatDocument?.collection("messages")?.add(message)
@@ -99,7 +91,7 @@ class ChatViewModel @Inject constructor(
             }
     }
     private fun updateLastMessage(chatId: String, message: String) {
-        user?.uid?.let { firestore.collection("users").document(it)
+        userUid?.let { firestore.collection("users").document(it)
             .collection("chats").document(chatId)
         }?.update("lastMessage", message)
             ?.addOnSuccessListener {
@@ -110,7 +102,7 @@ class ChatViewModel @Inject constructor(
             }
     }
     private fun updateChatTimestamp(chatId: String){
-        user?.uid?.let { firestore.collection("users").document(it)
+        userUid?.let { firestore.collection("users").document(it)
             .collection("chats").document(chatId)
         }?.update("timestamp", FieldValue.serverTimestamp())
             ?.addOnSuccessListener {
@@ -122,7 +114,7 @@ class ChatViewModel @Inject constructor(
     }
     private fun createNewChat(){
         currentChatId = UUID.randomUUID().toString()
-        user?.uid?.let {
+        userUid?.let {
             firestore.collection("users").document(it)
                 .collection("chats").document(currentChatId!!)
                 .set(hashMapOf("timestamp" to com.google.firebase.firestore.FieldValue.serverTimestamp()))
@@ -138,7 +130,7 @@ class ChatViewModel @Inject constructor(
     private fun fetchMessages() {
         currentChatId?.let { chatId ->
             viewModelScope.launch {
-                user?.uid?.let { firestore.collection("users").document(it)
+                userUid?.let { firestore.collection("users").document(it)
                     .collection("chats").document(chatId)
                     .collection("messages").orderBy("timestamp").get()
                 }
@@ -152,22 +144,6 @@ class ChatViewModel @Inject constructor(
                         Log.e(TAG, "Error fetching messages from Firestore", e)
                     }
             }
-        }
-    }
-    private fun fetchUser(uid: String) {
-        viewModelScope.launch {
-            firestore.collection("users").document(uid).get()
-                .addOnSuccessListener {document ->
-                    if (document.exists()) {
-                        val user = document.toObject(com.example.chatbot.data.model.User::class.java)
-                        fullName = user?.fullName ?: "Unknown"
-                        email = user?.email ?: "Unknown"
-                        Log.d(TAG, "fetchUser: fullName=$fullName, email=$email")
-                    }
-                }
-                .addOnFailureListener{e ->
-                    Log.e(TAG, "Error fetch user", e)
-                }
         }
     }
 }
