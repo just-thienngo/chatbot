@@ -33,13 +33,11 @@ class ChatViewModel @Inject constructor(
         private const val TAG = "ChatViewModel"
     }
 
-    init {
-        createNewChat()
-    }
-
-
     fun sendMessage(message: String) {
         viewModelScope.launch {
+            if (currentChatId == null) {
+                createNewChat()
+            }
             val myMessage = Message(message, Message.SENT_BY_ME)
             _messages.value += myMessage
             currentChatId?.let { addMessageToFirestore(myMessage, it) }
