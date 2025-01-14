@@ -1,4 +1,3 @@
-
 package com.example.chatbot.presentation.viewmodels
 
 import android.util.Log
@@ -7,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Message
 import com.example.chatbot.data.remote.ChatApiService
 import com.example.chatbot.presentation.utils.Resource
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,6 +33,7 @@ class ChatViewModel @Inject constructor(
     companion object {
         private const val TAG = "ChatViewModel"
     }
+
     fun setChatId(chatId: String){
         currentChatId = chatId
         fetchMessages()
@@ -68,7 +69,6 @@ class ChatViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
-
     private fun addMessageToFirestore(message: Message, chatId: String) {
         val chatDocument = firestore.collection("chats").document(chatId)
         chatDocument.collection("messages").add(message)
@@ -76,6 +76,7 @@ class ChatViewModel @Inject constructor(
                 Log.d(TAG, "Message added to Firestore with ID: ${documentReference.id} in chat $chatId")
                 if (message.sentBy == Message.SENT_BY_ME) {
                     updateLastMessage(chatId, message.message)
+                    updateChatTimestamp(chatId)
                 }
             }
             .addOnFailureListener { e ->
@@ -90,6 +91,16 @@ class ChatViewModel @Inject constructor(
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Error updating last message for chat $chatId", e)
+            }
+    }
+    private fun updateChatTimestamp(chatId: String){
+        firestore.collection("chats").document(chatId)
+            .update("timestamp", FieldValue.serverTimestamp())
+            .addOnSuccessListener {
+                Log.d(TAG, "timestamp chat updated for chat $chatId")
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error timestamp chat updated for chat $chatId", e)
             }
     }
     private fun createNewChat(){
