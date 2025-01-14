@@ -71,6 +71,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 messageAdapter = MessageAdapter(messages)
                 binding.recyclerView.adapter = messageAdapter
                 binding.recyclerView.smoothScrollToPosition(messages.size)
+                if(messages.isNotEmpty()) binding.welcomeText.visibility = View.GONE
             }
         }
     }
