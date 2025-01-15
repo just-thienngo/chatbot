@@ -1,5 +1,6 @@
 package com.example.chatbot.presentation.adapters
 
+import ChatItemAdapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
