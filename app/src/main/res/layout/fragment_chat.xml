@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/welcome_text"
         android:layout_centerInParent="true"
-        android:text="Welcome to Easy ChatGPT\nTry it out now"
+        android:text="Welcome to Chat AI by ChiThienNgo"
         android:gravity="center"
         android:textSize="28dp"
         />
