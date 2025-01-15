@@ -3,14 +3,12 @@ package com.example.chatbot.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.User
-import com.example.chatbot.presentation.utils.Constants.USER_CONLLECTION
+import com.example.chatbot.domain.repository.AuthRepository
 import com.example.chatbot.presentation.utils.RegisterFieldState
 import com.example.chatbot.presentation.utils.RegisterValidation
 import com.example.chatbot.presentation.utils.Resource
 import com.example.chatbot.presentation.utils.validateEmail
 import com.example.chatbot.presentation.utils.validatePassword
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val db: FirebaseFirestore
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
 
@@ -36,15 +33,15 @@ class SignUpViewModel @Inject constructor(
         if (checkValidation(user, password)) {
             viewModelScope.launch {
                 _register.emit(Resource.Loading())
-                firebaseAuth.createUserWithEmailAndPassword(user.email, password)
-                    .addOnSuccessListener { authResult ->
-                        authResult.user?.let { firebaseUser ->
-                            saveUserInfo(firebaseUser.uid, user)
-                        }
+                when(val result = authRepository.createAccountWithEmailAndPassword(user, password)){
+                    is Resource.Success -> {
+                        _register.value = Resource.Success(user)
                     }
-                    .addOnFailureListener {
-                        _register.value = Resource.Error(it.message.toString())
+                    is Resource.Error -> {
+                        _register.value = Resource.Error(result.message.toString())
                     }
+                    else -> Unit
+                }
             }
         } else {
             val registerFieldState = RegisterFieldState(
@@ -55,17 +52,6 @@ class SignUpViewModel @Inject constructor(
                 _validation.send(registerFieldState)
             }
         }
-    }
-    private fun saveUserInfo(userUid: String,user:User) {
-        db.collection(USER_CONLLECTION)
-            .document(userUid)
-            .set(user)
-            .addOnSuccessListener {
-                _register.value = Resource.Success(user)
-            }.addOnFailureListener{
-                _register.value = Resource.Error(it.message.toString())
-            }
-
     }
     private fun checkValidation(user: User, password: String):Boolean {
         val emailValidation = validateEmail(user.email)
