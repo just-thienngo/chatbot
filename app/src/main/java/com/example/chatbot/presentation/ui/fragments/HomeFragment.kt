@@ -59,6 +59,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.lnCreateNewChats.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
         }
+        binding.tvSeeAll.setOnClickListener() {
+            findNavController().navigate(R.id.action_homeFragment_to_allChatFragment)
+        }
     }
     private fun observeViewModel() {
         viewModel.chatHistory.observe(viewLifecycleOwner){ chatHistory ->
