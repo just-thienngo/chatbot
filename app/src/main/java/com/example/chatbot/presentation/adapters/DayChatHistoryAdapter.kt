@@ -1,5 +1,6 @@
 package com.example.chatbot.presentation.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +36,11 @@ class DayChatHistoryAdapter(
         val lastMessageTime =
             chatHistoryItem.chats.maxByOrNull { it.timestamp?.time ?: 0 }?.timestamp
         holder.timeTextView.text = getTimeAgo(lastMessageTime)
-
-        val chatItemAdapter = ChatItemAdapter(
-            chatHistoryItem.chats,
-            onDeleteChat = onDeleteChat,
-            onChatClick = onChatClick
-        )
+        val sortedChats = chatHistoryItem.chats.sortedByDescending {
+            it.timestamp
+        }
+        val chatItemAdapter =
+            ChatItemAdapter(sortedChats, onDeleteChat = onDeleteChat, onChatClick = onChatClick)
         holder.chatHistoryRecyclerView.apply {
             adapter = chatItemAdapter
             layoutManager = LinearLayoutManager(context)
