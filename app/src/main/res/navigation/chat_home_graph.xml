@@ -30,5 +30,9 @@
         android:name="com.example.chatbot.presentation.ui.fragments.AllChatFragment"
         android:label="AllChatFragment"
         tools:layout="@layout/fragment_all_chat"
-        />
+        >
+        <action
+            android:id="@+id/action_allChatFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 </navigation>
