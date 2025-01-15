@@ -6,15 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_all_chat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="All Chat"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_timechat"
@@ -23,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         tools:listitem="@layout/item_chat_history" />
 
 </LinearLayout>
