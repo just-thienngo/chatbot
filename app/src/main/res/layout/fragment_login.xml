@@ -156,26 +156,15 @@
                 android:gravity="end"
                 />
 
-            <LinearLayout
-                android:id="@+id/ln_login"
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btnLogin"
                 android:layout_width="355dp"
                 android:layout_height="53dp"
                 android:background="@drawable/btn_custom"
-                android:gravity="center"
-                android:layout_marginTop="30dp"
-                >
-                <TextView
-                    android:id="@+id/tv_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Login"
-                    android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    />
-
-
-            </LinearLayout>
+                android:text="Login"
+                android:layout_marginTop="10dp"
+                app:spinning_bar_color="@color/text_primary"
+                />
 
         </LinearLayout>
 

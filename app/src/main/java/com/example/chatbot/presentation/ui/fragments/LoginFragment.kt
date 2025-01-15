@@ -12,10 +12,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentLoginBinding
 import com.example.chatbot.presentation.ui.activities.HomeChatActivity
+import com.example.chatbot.presentation.utils.Resource
 import com.example.chatbot.presentation.viewmodels.LoginViewModel
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -29,7 +31,9 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -45,7 +49,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -96,21 +100,38 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding.imgGithub.setOnClickListener {
             signInWithGithub()
-
         }
 
-        // Observe login result
-        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
-            if (isSuccess) {
-                Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
-                Intent(requireActivity(), HomeChatActivity::class.java).also { intent ->
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-            } else {
-                Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
+        binding.btnLogin.setOnClickListener{
+            val email = binding.etUsername.text.toString().trim()
+            val password = binding.etPassword.text.toString()
+            if(email.isNotEmpty() && password.isNotEmpty()){
+                loginViewModel.signInWithEmailAndPassword(email, password)
+            }else{
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
+        // Observe login result
+        loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            when(result){
+                is Resource.Loading -> {
+                    binding.btnLogin.startAnimation()
+                }
+                is Resource.Success -> {
+                    binding.btnLogin.revertAnimation()
+                    Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
+                    Intent(requireActivity(), HomeChatActivity::class.java).also { intent ->
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                    }
+                }
+                is Resource.Error -> {
+                    binding.btnLogin.revertAnimation()
+                    Toast.makeText(context, "Authentication failed: ${result.message}", Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
+        }
     }
 
     private fun signInWithGithub() {
@@ -203,6 +224,5 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun exchangeGithubCodeForToken(code: String) {
-
     }
 }

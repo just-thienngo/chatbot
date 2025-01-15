@@ -4,17 +4,22 @@ import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import com.example.chatbot.data.remote.ChatApiService
 import com.example.chatbot.data.remote.ChatApiServiceImpl
+import com.example.chatbot.data.repository.AuthRepositoryImpl
+import com.example.chatbot.data.repository.ChatRepositoryImpl
 import com.example.chatbot.data.repository.FacebookAuthRepositoryImpl
 import com.example.chatbot.data.repository.GithubAuthRepositoryImpl
 import com.example.chatbot.data.repository.GoogleAuthRepositoryImpl
+import com.example.chatbot.domain.repository.AuthRepository
 import com.example.chatbot.domain.repository.AuthRepositoryWithFacebook
 import com.example.chatbot.domain.repository.AuthRepositoryWithGithub
 import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
+import com.example.chatbot.domain.repository.ChatRepository
 import com.example.chatbot.domain.usecase.FacebookSignInUseCase
 import com.example.chatbot.domain.usecase.GithubSignInUseCase
 import com.example.chatbot.domain.usecase.GoogleSignInUseCase
 import com.example.chatbot.presentation.utils.Constants.INTRODUCTION_SP
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -68,6 +73,17 @@ object AppModule {
     fun provideChatApiService(client: OkHttpClient): ChatApiService {
         return ChatApiServiceImpl(client)
     }
+    @Provides
+    fun provideChatRepository(
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth
+    ): ChatRepository = ChatRepositoryImpl(firestore, firebaseAuth)
+
+    @Provides
+    fun provideAuthRepository(
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth
+    ): AuthRepository = AuthRepositoryImpl(firestore, firebaseAuth)
 
     // Provide OkHttpClient
     @Provides

@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Message
 import com.example.chatbot.data.remote.ChatApiService
+import com.example.chatbot.domain.repository.ChatRepository
 import com.example.chatbot.presentation.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatApiService: ChatApiService,
-    private val firestore: FirebaseFirestore,
+    private val chatRepository: ChatRepository,
     private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
@@ -45,11 +45,12 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(message: String) {
         viewModelScope.launch {
             if (currentChatId == null) {
-                createNewChat()
+                currentChatId = UUID.randomUUID().toString()
+                currentChatId?.let { chatRepository.createNewChat(it) }
             }
             val myMessage = Message(message, Message.SENT_BY_ME)
             _messages.value += myMessage
-            currentChatId?.let { addMessageToFirestore(myMessage, it) }
+            currentChatId?.let {  chatRepository.sendMessage(myMessage, it) }
 
             _isLoading.value = true
             when (val response = chatApiService.generateResponse(message)) {
@@ -57,7 +58,7 @@ class ChatViewModel @Inject constructor(
                     response.data?.let { reply ->
                         val botMessage = Message(reply, Message.SENT_BY_BOT)
                         _messages.value += botMessage
-                        currentChatId?.let { addMessageToFirestore(botMessage, it) }
+                        currentChatId?.let { chatRepository.sendMessage(botMessage, it) }
                     }
                 }
                 is Resource.Error -> {
@@ -66,83 +67,36 @@ class ChatViewModel @Inject constructor(
                         Message.SENT_BY_BOT
                     )
                     _messages.value += errorMessage
-                    currentChatId?.let { addMessageToFirestore(errorMessage, it) }
+                    currentChatId?.let { chatRepository.sendMessage(errorMessage, it) }
                 }
                 else -> Unit
             }
             _isLoading.value = false
         }
     }
-
-    private fun addMessageToFirestore(message: Message, chatId: String) {
-        val chatDocument =  userUid?.let {  firestore.collection("users").document(it)
-            .collection("chats").document(chatId)
+    private fun updateLastMessage(chatId: String, message: String){
+        viewModelScope.launch {
+            chatRepository.updateLastMessage(chatId, message)
         }
-        chatDocument?.collection("messages")?.add(message)
-            ?.addOnSuccessListener { documentReference ->
-                Log.d(TAG, "Message added to Firestore with ID: ${documentReference.id} in chat $chatId")
-                if (message.sentBy == Message.SENT_BY_ME) {
-                    updateLastMessage(chatId, message.message)
-                    updateChatTimestamp(chatId)
-                }
-            }
-            ?.addOnFailureListener { e ->
-                Log.e(TAG, "Error adding message to Firestore", e)
-            }
-    }
-    private fun updateLastMessage(chatId: String, message: String) {
-        userUid?.let { firestore.collection("users").document(it)
-            .collection("chats").document(chatId)
-        }?.update("lastMessage", message)
-            ?.addOnSuccessListener {
-                Log.d(TAG, "Last message updated for chat $chatId")
-            }
-            ?.addOnFailureListener { e ->
-                Log.e(TAG, "Error updating last message for chat $chatId", e)
-            }
     }
     private fun updateChatTimestamp(chatId: String){
-        userUid?.let { firestore.collection("users").document(it)
-            .collection("chats").document(chatId)
-        }?.update("timestamp", FieldValue.serverTimestamp())
-            ?.addOnSuccessListener {
-                Log.d(TAG, "timestamp chat updated for chat $chatId")
-            }
-            ?.addOnFailureListener { e ->
-                Log.e(TAG, "Error timestamp chat updated for chat $chatId", e)
-            }
+        viewModelScope.launch {
+            chatRepository.updateChatTimestamp(chatId)
+        }
     }
     private fun createNewChat(){
-        currentChatId = UUID.randomUUID().toString()
-        userUid?.let {
-            firestore.collection("users").document(it)
-                .collection("chats").document(currentChatId!!)
-                .set(hashMapOf("timestamp" to com.google.firebase.firestore.FieldValue.serverTimestamp()))
+        viewModelScope.launch {
+            currentChatId = UUID.randomUUID().toString()
+            currentChatId?.let { chatRepository.createNewChat(it) }
         }
-            ?.addOnSuccessListener {
-                Log.d(TAG, "New chat created with ID: $currentChatId")
-                fetchMessages()
-            }
-            ?.addOnFailureListener{e ->
-                Log.e(TAG, "Error creating chat", e)
-            }
+        fetchMessages()
     }
     private fun fetchMessages() {
         currentChatId?.let { chatId ->
             viewModelScope.launch {
-                userUid?.let { firestore.collection("users").document(it)
-                    .collection("chats").document(chatId)
-                    .collection("messages").orderBy("timestamp").get()
+                chatRepository.fetchMessages(chatId).collect{
+                    _messages.value = it
                 }
-                    ?.addOnSuccessListener { querySnapshot ->
-                        val fetchedMessages = querySnapshot.documents.map { document ->
-                            document.toObject(Message::class.java) ?: Message("", "")
-                        }
-                        _messages.value = fetchedMessages
-                    }
-                    ?.addOnFailureListener { e ->
-                        Log.e(TAG, "Error fetching messages from Firestore", e)
-                    }
             }
         }
     }

@@ -87,6 +87,5 @@ class DayChatHistoryAdapter(
         }
     }
 
-
     override fun getItemCount() = chatHistoryItemList.size
 }

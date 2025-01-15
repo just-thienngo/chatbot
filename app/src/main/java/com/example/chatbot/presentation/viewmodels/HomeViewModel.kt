@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Chat
 import com.example.chatbot.data.model.ChatHistoryItem
-import com.google.firebase.auth.FirebaseAuth
+import com.example.chatbot.domain.repository.AuthRepository
+import com.example.chatbot.domain.repository.ChatRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,35 +18,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val firebaseAuth: FirebaseAuth
+    private val chatRepository: ChatRepository,
+    private val authRepository: AuthRepository,
+
 ) : ViewModel() {
 
     private val _chatHistory = MutableLiveData<List<ChatHistoryItem>>(emptyList())
     val chatHistory: LiveData<List<ChatHistoryItem>> = _chatHistory
+    private val userUid = authRepository.getCurrentUser()?.uid
 
     companion object {
         private const val TAG = "HomeViewModel"
     }
-    private val userUid = firebaseAuth.currentUser?.uid
+
     init {
         fetchChats()
     }
 
     private fun fetchChats() {
-        userUid?.let { firestore.collection("users").document(it)
-            .collection("chats")
-        }
-            ?.addSnapshotListener { querySnapshot, e ->
-                if (e != null) {
-                    Log.e(TAG, "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-                val chats = querySnapshot?.documents?.mapNotNull { document ->
-                    val chat = document.toObject(Chat::class.java)
-                    chat?.copy(chatId = document.id)
-                } ?: emptyList()
-
+        viewModelScope.launch {
+            chatRepository.fetchAllChats().collect{chats ->
                 val groupedChats = chats.groupBy { chat ->
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                     dateFormat.format(chat.timestamp ?: Date())
@@ -57,18 +49,11 @@ class HomeViewModel @Inject constructor(
                 _chatHistory.value = groupedChats
                 Log.d(TAG, "fetchChats: chats=$groupedChats")
             }
+        }
     }
     fun deleteChat(chatId: String) {
         viewModelScope.launch {
-            userUid?.let { firestore.collection("users").document(it)
-                .collection("chats").document(chatId)
-            }?.delete()
-                ?.addOnSuccessListener {
-                    Log.d(TAG, "Chat deleted successfully with ID: $chatId")
-                }
-                ?.addOnFailureListener { e ->
-                    Log.e(TAG, "Error deleting chat with ID: $chatId", e)
-                }
+            chatRepository.deleteChat(chatId)
         }
     }
 }
