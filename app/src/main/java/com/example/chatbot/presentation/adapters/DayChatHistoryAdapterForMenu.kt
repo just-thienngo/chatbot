@@ -14,9 +14,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class DayChatHistoryAdapterForMenu(
-    private val chatHistoryItemList: List<ChatHistoryItem>,
-) :
-    RecyclerView.Adapter<DayChatHistoryAdapterForMenu.ChatHistoryViewHolder>() {
+    private val chatHistoryItemList: List<ChatHistoryItem>
+) : RecyclerView.Adapter<DayChatHistoryAdapterForMenu.ChatHistoryViewHolder>() {
 
     inner class ChatHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val timeTextView: TextView = itemView.findViewById(R.id.tv_time)
@@ -41,7 +40,7 @@ class DayChatHistoryAdapterForMenu(
     }
 
     private fun getTimeAgo(date: Date?): String {
-        if(date == null) return "Unknown"
+        if (date == null) return "Unknown"
         val now = Date()
         val diffInMillis = now.time - date.time
         val calendar = Calendar.getInstance()
@@ -76,7 +75,6 @@ class DayChatHistoryAdapterForMenu(
             }
         }
     }
-
 
     override fun getItemCount() = chatHistoryItemList.size
 }
