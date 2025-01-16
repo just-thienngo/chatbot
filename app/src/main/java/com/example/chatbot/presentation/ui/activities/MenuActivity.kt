@@ -18,4 +18,8 @@ class MenuActivity: AppCompatActivity(R.layout.activity_menu) {
         enableEdgeToEdge()
         setContentView(R.layout.activity_menu)
     }
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_right_to_left)
+    }
 }
