@@ -5,16 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentHomeBinding
 import com.example.chatbot.presentation.adapters.DayChatHistoryAdapter
+import com.example.chatbot.presentation.utils.Resource
 import com.example.chatbot.presentation.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -56,31 +60,53 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupClickListeners() {
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.enter_right_to_left)
+            .setExitAnim(R.anim.exit_left_to_right)
+            .setPopEnterAnim(R.anim.enter_left_to_right)
+            .setPopExitAnim(R.anim.exit_right_to_left)
+            .build()
+
+
         binding.lnCreateNewChats.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment, null, navOptions)
         }
-        binding.tvSeeAll.setOnClickListener() {
+        binding.tvSeeAll.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_allChatFragment)
         }
     }
     private fun observeViewModel() {
-        viewModel.chatHistory.observe(viewLifecycleOwner){ chatHistory ->
-            Log.d("HomeFragment", "observeViewModel: chats=$chatHistory")
-            val sortedChats = chatHistory.sortedByDescending {
-                it.chats.maxByOrNull { chat ->
-                    chat.timestamp?.time ?: 0
-                }?.timestamp
-            }
-            dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
-                viewModel.deleteChat(chatId)
-            }, onChatClick = { chatId ->
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_chatFragment,
-                    Bundle().apply {
-                        putString("chatId", chatId)
+        viewModel.chatHistory.observe(viewLifecycleOwner){ result ->
+            when(result){
+                is Resource.Loading -> {
+                    Log.d("HomeFragment", "observeViewModel: loading")
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    Log.d("HomeFragment", "observeViewModel: chats=${result.data}")
+                    binding.progressBar.visibility = View.GONE
+                    val sortedChats = (result.data ?: emptyList()).sortedByDescending {
+                        it.chats.maxByOrNull { chat ->
+                            chat.timestamp?.time ?: 0
+                        }?.timestamp
+                    }
+                    dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
+                        viewModel.deleteChat(chatId)
+                    }, onChatClick = { chatId ->
+                        findNavController().navigate(
+                            R.id.action_homeFragment_to_chatFragment,
+                            Bundle().apply {
+                                putString("chatId", chatId)
+                            })
                     })
-            })
-            binding.rcvTimechat.adapter = dayChatHistoryAdapter
+                    binding.rcvTimechat.adapter = dayChatHistoryAdapter
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "An error occurred", Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
         }
     }
 }

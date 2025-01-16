@@ -9,6 +9,7 @@ import com.example.chatbot.data.model.Chat
 import com.example.chatbot.data.model.ChatHistoryItem
 import com.example.chatbot.domain.repository.AuthRepository
 import com.example.chatbot.domain.repository.ChatRepository
+import com.example.chatbot.presentation.utils.Resource
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,12 +22,11 @@ class HomeViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val authRepository: AuthRepository,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
-    private val _chatHistory = MutableLiveData<List<ChatHistoryItem>>(emptyList())
-    val chatHistory: LiveData<List<ChatHistoryItem>> = _chatHistory
+    private val _chatHistory = MutableLiveData<Resource<List<ChatHistoryItem>>>(Resource.Unspecified())
+    val chatHistory: LiveData<Resource<List<ChatHistoryItem>>> = _chatHistory
     private val userUid = authRepository.getCurrentUser()?.uid
-
     companion object {
         private const val TAG = "HomeViewModel"
     }
@@ -35,8 +35,10 @@ class HomeViewModel @Inject constructor(
         fetchChats()
     }
 
+
     private fun fetchChats() {
         viewModelScope.launch {
+            _chatHistory.value = Resource.Loading()
             chatRepository.fetchAllChats().collect{chats ->
                 val groupedChats = chats.groupBy { chat ->
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -46,7 +48,7 @@ class HomeViewModel @Inject constructor(
                 }.sortedByDescending {
                     it.date
                 }
-                _chatHistory.value = groupedChats
+                _chatHistory.value = Resource.Success(groupedChats)
                 Log.d(TAG, "fetchChats: chats=$groupedChats")
             }
         }

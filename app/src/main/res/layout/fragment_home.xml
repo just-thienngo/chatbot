@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/text_primary"
+    android:id="@+id/main"
     android:padding="16dp">
 
 
@@ -59,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/ln_textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/tv_seeAll"
@@ -70,7 +71,19 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/tv_chatHistory"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/tv_seeAll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_timechat"
@@ -80,7 +93,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         tools:listitem="@layout/item_chat_history" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
