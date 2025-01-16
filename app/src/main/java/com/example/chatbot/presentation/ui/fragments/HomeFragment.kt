@@ -8,17 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentHomeBinding
 import com.example.chatbot.presentation.adapters.DayChatHistoryAdapter
 import com.example.chatbot.presentation.utils.Resource
+import com.example.chatbot.presentation.utils.getNavOptions
 import com.example.chatbot.presentation.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -60,24 +58,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupClickListeners() {
-        val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.enter_right_to_left)
-            .setExitAnim(R.anim.exit_left_to_right)
-            .setPopEnterAnim(R.anim.enter_left_to_right)
-            .setPopExitAnim(R.anim.exit_right_to_left)
-            .build()
-
-
         binding.lnCreateNewChats.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_chatFragment, null, navOptions)
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment, null, getNavOptions())
         }
         binding.tvSeeAll.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_allChatFragment)
         }
     }
+
     private fun observeViewModel() {
-        viewModel.chatHistory.observe(viewLifecycleOwner){ result ->
-            when(result){
+        viewModel.chatHistory.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 is Resource.Loading -> {
                     Log.d("HomeFragment", "observeViewModel: loading")
                     binding.progressBar.visibility = View.VISIBLE
@@ -97,7 +88,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             R.id.action_homeFragment_to_chatFragment,
                             Bundle().apply {
                                 putString("chatId", chatId)
-                            })
+                            },  getNavOptions())
                     })
                     binding.rcvTimechat.adapter = dayChatHistoryAdapter
                 }
