@@ -17,6 +17,7 @@ class HomeChatActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.ic_menu).setOnClickListener {
             startActivity(Intent(this, MenuActivity::class.java))
+            overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_left_to_right)
         }
     }
 }
