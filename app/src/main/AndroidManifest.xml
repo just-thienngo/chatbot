@@ -32,6 +32,10 @@
             android:name=".presentation.ui.activities.HomeChatActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".presentation.ui.activities.MenuActivity"
+            android:exported="true">
+        </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 

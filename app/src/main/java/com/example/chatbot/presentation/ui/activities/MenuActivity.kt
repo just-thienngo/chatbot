@@ -2,21 +2,20 @@ package com.example.chatbot.presentation.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
+
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatbot.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeChatActivity : AppCompatActivity() {
+
+class MenuActivity: AppCompatActivity(R.layout.activity_menu) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home_chat)
-
-        findViewById<View>(R.id.ic_menu).setOnClickListener {
-            startActivity(Intent(this, MenuActivity::class.java))
-        }
+        setContentView(R.layout.activity_menu)
     }
 }

@@ -9,7 +9,7 @@
     <color name="primary_variant">#3700B3</color>
     <color name="secondary">#03DAC5</color> <!-- Màu ngọc lam nhạt -->
     <color name="secondary_variant">#018786</color>
-
+<color name="backgroundMenu">#292929</color>
     <!-- Màu cảnh báo và lỗi -->
     <color name="error">#B00020</color> <!-- Màu đỏ lỗi -->
     <color name="warning">#FFA000</color> <!-- Màu vàng cảnh báo -->
