@@ -42,6 +42,8 @@
             android:layout_toLeftOf="@id/send_btn"
             android:background="@drawable/rounded_corner"
             />
+
+
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -52,7 +54,15 @@
             android:padding="8dp"
             android:src="@drawable/ic_vector"
             android:background="@drawable/ic_ellipse"
-
+            />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/micro_btn"
+            android:src="@drawable/ic_micro"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="65dp"
             />
 
 
