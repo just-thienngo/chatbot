@@ -49,10 +49,19 @@ class AuthRepositoryImpl @Inject constructor(
     }
     override suspend fun resetPassword(email: String): Resource<String> {
         return try {
+            val userDocument = firestore.collection("users").whereEqualTo("email", email).get().await()
+
+            if(userDocument.isEmpty){
+                return Resource.Error("User not found or email is incorrect")
+            }
             firebaseAuth.sendPasswordResetEmail(email).await()
             Resource.Success("Password reset email sent")
         }catch (e: Exception){
+            if (e.message?.contains("PERMISSION_DENIED") == true) {
+                return Resource.Error("User not found or email is incorrect")
+            }
             Resource.Error(e.message.toString())
+
         }
     }
 
