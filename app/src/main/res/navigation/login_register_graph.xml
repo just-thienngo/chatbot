@@ -36,6 +36,7 @@
         <action
             android:id="@+id/action_introductionFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:enterAnim="@anim/from_right" />
+            app:enterAnim="@anim/enter_right_to_left"
+            app:exitAnim="@anim/enter_right_to_left" />
     </fragment>
 </navigation>
