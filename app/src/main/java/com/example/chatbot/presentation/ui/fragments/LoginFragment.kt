@@ -92,6 +92,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.tvSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
+        binding.tvDontHaveAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
 
         // Google Sign-In button
         binding.imgGoogle.setOnClickListener {

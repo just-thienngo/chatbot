@@ -32,7 +32,7 @@ class MenuActivity: AppCompatActivity(R.layout.activity_menu) {
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_right_to_left)
+        overridePendingTransition(R.anim.enter_right_to_left,R.anim.enter_right_to_left)
     }
     private fun setupRecyclerView() {
         dayChatHistoryAdapter = DayChatHistoryAdapterForMenu(emptyList())
