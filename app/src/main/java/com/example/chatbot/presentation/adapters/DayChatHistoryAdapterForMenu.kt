@@ -59,16 +59,17 @@ class DayChatHistoryAdapterForMenu(
 
         return when {
             diffDays == 0L -> when {
-                seconds < 60 -> "Vừa xong"
-                minutes < 60 -> "$minutes phút trước"
-                hours < 24 -> "$hours giờ trước"
-                else -> "hôm nay"
+                seconds < 60 -> "Just now"
+                minutes < 60 -> "$minutes minutes ago"
+                hours < 24 -> "$hours hours ago"
+                else -> "today"
             }
-            diffDays == 1L -> "Hôm qua"
-            days < 7 -> "$days ngày trước"
-            weeks < 4 -> "$weeks tuần trước"
-            months < 12 -> "$months tháng trước"
-            years < 5 -> "$years năm trước"
+
+            diffDays == 1L -> "Yesterday"
+            days < 7 -> "$days days ago"
+            weeks < 4 -> "$weeks weeks ago"
+            months < 12 -> "$months months ago"
+            years < 5 -> "$years years ago"
             else -> {
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 dateFormat.format(date)

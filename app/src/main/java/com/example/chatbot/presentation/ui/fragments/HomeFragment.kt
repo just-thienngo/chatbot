@@ -14,7 +14,7 @@ import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentHomeBinding
 import com.example.chatbot.presentation.adapters.DayChatHistoryAdapter
 import com.example.chatbot.presentation.utils.Resource
-import com.example.chatbot.presentation.utils.getNavOptions
+
 import com.example.chatbot.presentation.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,7 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setupClickListeners() {
         binding.lnCreateNewChats.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_chatFragment, null, getNavOptions())
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
         }
         binding.tvSeeAll.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_allChatFragment)
@@ -88,7 +88,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             R.id.action_homeFragment_to_chatFragment,
                             Bundle().apply {
                                 putString("chatId", chatId)
-                            },  getNavOptions())
+                            })
                     })
                     binding.rcvTimechat.adapter = dayChatHistoryAdapter
                 }

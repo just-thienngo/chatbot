@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentAllChatBinding
+
 import com.example.chatbot.presentation.viewmodels.AllChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class AllChatFragment:Fragment(R.layout.fragment_all_chat) {
