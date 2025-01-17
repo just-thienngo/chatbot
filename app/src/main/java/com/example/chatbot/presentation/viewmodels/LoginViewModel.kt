@@ -9,6 +9,7 @@ import com.example.chatbot.domain.usecase.EmailPasswordSignInUseCase
 import com.example.chatbot.domain.usecase.FacebookSignInUseCase
 import com.example.chatbot.domain.usecase.GithubSignInUseCase
 import com.example.chatbot.domain.usecase.GoogleSignInUseCase
+import com.example.chatbot.domain.usecase.ResetPasswordUseCase
 import com.example.chatbot.presentation.utils.Resource
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -26,11 +27,17 @@ class LoginViewModel @Inject constructor(
     private val googleSignInUseCase: GoogleSignInUseCase,
     private val facebookSignInUseCase: FacebookSignInUseCase,
     private val githubSignInUseCase: GithubSignInUseCase,
-    private val emailPasswordSignInUseCase: EmailPasswordSignInUseCase
+    private val emailPasswordSignInUseCase: EmailPasswordSignInUseCase,
+    private val resetPasswordUseCase: ResetPasswordUseCase
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Resource<FirebaseUser>>(Resource.Unspecified())
     val loginResult: LiveData<Resource<FirebaseUser>> get() = _loginResult
+
+
+    private val _resetPassword = MutableSharedFlow<Resource<String>>()
+    val resetPassword = _resetPassword.asSharedFlow()
+
 
     fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         viewModelScope.launch {
@@ -62,5 +69,15 @@ class LoginViewModel @Inject constructor(
             val result = emailPasswordSignInUseCase(email,password)
             _loginResult.value = result
         }
+    }
+    fun resetPassword(email: String) {
+        viewModelScope.launch {
+            _resetPassword.emit(Resource.Loading())
+        }
+        viewModelScope.launch {
+            val result = resetPasswordUseCase(email)
+            _resetPassword.emit(result)
+        }
+
     }
 }

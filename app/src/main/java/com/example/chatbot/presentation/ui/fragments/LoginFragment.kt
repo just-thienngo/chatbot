@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.chatbot.R
 import com.example.chatbot.databinding.FragmentLoginBinding
+import com.example.chatbot.presentation.dialog.setupBottomSheetDiaLog
 import com.example.chatbot.presentation.ui.activities.HomeChatActivity
 import com.example.chatbot.presentation.utils.Resource
 import com.example.chatbot.presentation.viewmodels.LoginViewModel
@@ -32,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -129,6 +130,29 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Toast.makeText(context, "Authentication failed: ${result.message}", Toast.LENGTH_SHORT).show()
                 }
                 else -> Unit
+            }
+        }
+
+        // Reset password
+        binding.tvForgetPassword.setOnClickListener{
+                 setupBottomSheetDiaLog {email ->
+                         loginViewModel.resetPassword(email)
+                 }
+        }
+        lifecycleScope.launch {
+            loginViewModel.resetPassword.collect { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        // Show loading
+                    }
+                    is Resource.Success -> {
+                        Toast.makeText(requireContext(), "Reset link was sent to your email", Toast.LENGTH_LONG).show()
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), "Error: ${result.message}", Toast.LENGTH_LONG).show()
+                    }
+                    else -> Unit
+                }
             }
         }
     }
