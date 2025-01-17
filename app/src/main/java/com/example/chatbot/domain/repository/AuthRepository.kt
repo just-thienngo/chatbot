@@ -9,6 +9,6 @@
         suspend fun createNewUser(uid: String, fullName: String, email: String)
         suspend fun createAccountWithEmailAndPassword(user: User, password: String): Resource<FirebaseUser>
         suspend fun signInWithEmailAndPassword(email: String, password: String): Resource<FirebaseUser>
-
         suspend fun signOut()
+        suspend fun resetPassword(email: String): Resource<String>
     }

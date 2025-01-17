@@ -47,6 +47,14 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun signOut() {
         firebaseAuth.signOut()
     }
+    override suspend fun resetPassword(email: String): Resource<String> {
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            Resource.Success("Password reset email sent")
+        }catch (e: Exception){
+            Resource.Error(e.message.toString())
+        }
+    }
 
     companion object {
         private const val TAG = "AuthRepositoryImpl"
