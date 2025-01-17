@@ -14,10 +14,13 @@
         >
         <action
             android:id="@+id/action_homeFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/enter_right_to_left"
+            app:exitAnim="@anim/exit_right_to_left" />
         <action
             android:id="@+id/action_homeFragment_to_allChatFragment"
-            app:destination="@id/allChatFragment" />
+            app:destination="@id/allChatFragment"
+            app:enterAnim="@anim/enter_right_to_left" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
