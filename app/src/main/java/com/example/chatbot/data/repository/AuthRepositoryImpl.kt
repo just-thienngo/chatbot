@@ -44,6 +44,9 @@ class AuthRepositoryImpl @Inject constructor(
             Resource.Error(e.message.toString())
         }
     }
+    override suspend fun signOut() {
+        firebaseAuth.signOut()
+    }
 
     companion object {
         private const val TAG = "AuthRepositoryImpl"
