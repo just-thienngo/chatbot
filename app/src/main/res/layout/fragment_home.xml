@@ -66,9 +66,9 @@
         android:id="@+id/tv_seeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See All"
+        android:text="See More"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/tv_chatHistory"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp" />
