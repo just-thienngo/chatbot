@@ -2,6 +2,8 @@
 
 Welcome to ChatAI, a cross-platform AI chatbot application designed to provide an intelligent and friendly chatting experience. This application integrates many powerful features, from diverse login options to voice-to-text capabilities.
 
+[Vietnamese version here](./README_vi.md)
+
 ## 🚀 Key Features
 
 *   **Diverse Login Options:**
