@@ -3,7 +3,7 @@
 ### <a href="https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0" target="_blank">Figma: ChatAI - AI Chatbot UI</a>
 
 ## Speech to Chat 
-![App Demo](https://s2.ezgif.com/tmp/ezgif-2-025210cf62.gif)
+![App Demo](https://s2.ezgif.com/tmp/ezgif-2-42ab92d01b.gif)
 
 ### 1. Authentication: Login with Google, Facebook, Github, Email & Password and Reset password
 
