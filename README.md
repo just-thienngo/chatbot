@@ -9,9 +9,10 @@
 
 ![login](https://github.com/user-attachments/assets/09c42807-a2ce-4aa5-a3f3-3935b6c13154)
 
-### 3. Sign up and reset password
+### 3. Reset password
 
-![signuppasswrd](https://github.com/user-attachments/assets/0a3a7d85-a6e4-43b4-bd83-2d5507ffcc76)
+![0be5c944d5096a573318](https://github.com/user-attachments/assets/b5b4f111-2f56-4a8d-9c8a-349c2cffb583)
+
 
 
 
