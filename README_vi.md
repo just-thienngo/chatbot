@@ -1,6 +1,7 @@
 # ChatAI - Ứng dụng Chatbot AI
 
-Chào mừng đến với ChatAI, một ứng dụng chatbot AI đa nền tảng được thiết kế để cung cấp trải nghiệm trò chuyện thông minh và thân thiện. Ứng dụng này tích hợp nhiều tính năng mạnh mẽ, từ đăng nhập đa dạng đến khả năng chuyển đổi giọng nói thành văn bản.
+Chào mừng đến với ChatAI, một ứng dụng chatbot AI gốc trên Android được thiết kế để cung cấp trải nghiệm trò chuyện thông minh và thân thiện. Ứng dụng này tích hợp nhiều tính năng mạnh mẽ, từ đăng nhập đa dạng đến khả năng chuyển đổi giọng nói thành văn bản.
+
 
 ## 🚀 Tính Năng Nổi Bật
 
