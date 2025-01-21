@@ -1,14 +1,16 @@
 package com.example.chatbot.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Message
 import com.example.chatbot.data.remote.ChatApiService
-import com.example.chatbot.domain.repository.ChatRepository
+import com.example.chatbot.domain.usecase.chat.CreateNewChatUseCase
+import com.example.chatbot.domain.usecase.chat.FetchMessagesUseCase
+import com.example.chatbot.domain.usecase.chat.SendMessageUseCase
+import com.example.chatbot.domain.usecase.chat.UpdateChatTimestampUseCase
+import com.example.chatbot.domain.usecase.chat.UpdateLastMessageUseCase
 import com.example.chatbot.presentation.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatApiService: ChatApiService,
-    private val chatRepository: ChatRepository,
+    private val createNewChatUseCase: CreateNewChatUseCase,
+    private val sendMessageUseCase: SendMessageUseCase,
+    private val fetchMessagesUseCase: FetchMessagesUseCase,
+    private val updateLastMessageUseCase: UpdateLastMessageUseCase,
+    private val updateChatTimestampUseCase: UpdateChatTimestampUseCase,
     private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
@@ -46,11 +52,11 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             if (currentChatId == null) {
                 currentChatId = UUID.randomUUID().toString()
-                currentChatId?.let { chatRepository.createNewChat(it) }
+                currentChatId?.let { createNewChatUseCase(it)  }
             }
             val myMessage = Message(message, Message.SENT_BY_ME)
             _messages.value += myMessage
-            currentChatId?.let {  chatRepository.sendMessage(myMessage, it) }
+            currentChatId?.let {  sendMessageUseCase(myMessage, it) }
 
             _isLoading.value = true
             when (val response = chatApiService.generateResponse(message)) {
@@ -58,7 +64,7 @@ class ChatViewModel @Inject constructor(
                     response.data?.let { reply ->
                         val botMessage = Message(reply, Message.SENT_BY_BOT)
                         _messages.value += botMessage
-                        currentChatId?.let { chatRepository.sendMessage(botMessage, it) }
+                        currentChatId?.let { sendMessageUseCase(botMessage, it)}
                     }
                 }
                 is Resource.Error -> {
@@ -67,7 +73,7 @@ class ChatViewModel @Inject constructor(
                         Message.SENT_BY_BOT
                     )
                     _messages.value += errorMessage
-                    currentChatId?.let { chatRepository.sendMessage(errorMessage, it) }
+                    currentChatId?.let { sendMessageUseCase(errorMessage, it) }
                 }
                 else -> Unit
             }
@@ -76,25 +82,25 @@ class ChatViewModel @Inject constructor(
     }
     private fun updateLastMessage(chatId: String, message: String){
         viewModelScope.launch {
-            chatRepository.updateLastMessage(chatId, message)
+            updateLastMessageUseCase(chatId, message)
         }
     }
     private fun updateChatTimestamp(chatId: String){
         viewModelScope.launch {
-            chatRepository.updateChatTimestamp(chatId)
+            updateChatTimestampUseCase(chatId)
         }
     }
     private fun createNewChat(){
         viewModelScope.launch {
             currentChatId = UUID.randomUUID().toString()
-            currentChatId?.let { chatRepository.createNewChat(it) }
+            currentChatId?.let { createNewChatUseCase(it) }
         }
         fetchMessages()
     }
     private fun fetchMessages() {
         currentChatId?.let { chatId ->
             viewModelScope.launch {
-                chatRepository.fetchMessages(chatId).collect{
+                fetchMessagesUseCase(chatId).collect{
                     _messages.value = it
                 }
             }

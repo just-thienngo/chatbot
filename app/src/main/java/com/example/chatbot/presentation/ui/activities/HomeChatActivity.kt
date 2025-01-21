@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatbot.R
-import com.example.chatbot.domain.usecase.DeleteAllChatsUseCase
-import com.example.chatbot.domain.usecase.SignOutUseCase
+import com.example.chatbot.domain.usecase.chat.DeleteAllChatsUseCase
+import com.example.chatbot.domain.usecase.auth.SignOutUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

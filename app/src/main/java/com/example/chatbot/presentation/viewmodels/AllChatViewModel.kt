@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Chat
 import com.example.chatbot.domain.repository.ChatRepository
+import com.example.chatbot.domain.usecase.chat.FetchAllChatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AllChatViewModel @Inject constructor(
-    private val chatRepository: ChatRepository,
+    private val fetchAllChatsUseCase: FetchAllChatsUseCase
 ) : ViewModel() {
 
     private val _chats = MutableLiveData<List<Chat>>(emptyList())
@@ -26,9 +27,8 @@ class AllChatViewModel @Inject constructor(
     }
     private fun fetchAllChats() {
         viewModelScope.launch {
-            chatRepository.fetchAllChats().collect {
-                _chats.value = it
-                Log.d(TAG, "fetchChats: chats=$it")
+            fetchAllChatsUseCase().collect { chatList ->
+                _chats.value = chatList
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.chatbot.domain.usecase
+package com.example.chatbot.domain.usecase.auth
 
 import com.example.chatbot.domain.repository.AuthRepository
 import javax.inject.Inject
