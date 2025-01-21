@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatbot.R
+import com.example.chatbot.domain.usecase.DeleteAllChatsUseCase
 import com.example.chatbot.domain.usecase.SignOutUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,8 @@ class HomeChatActivity : AppCompatActivity() {
     @Inject
     lateinit var signOutUseCase: SignOutUseCase
     private lateinit var auth: FirebaseAuth
+    @Inject
+    lateinit var deleteAllChatsUseCase: DeleteAllChatsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +52,7 @@ class HomeChatActivity : AppCompatActivity() {
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menu_item_1 -> {
-                    Toast.makeText(this, "Delete all", Toast.LENGTH_SHORT).show()
+                    deleteAll()
                     true
                 }
                 R.id.menu_item_2 -> {
@@ -61,6 +64,25 @@ class HomeChatActivity : AppCompatActivity() {
             }
         }
         popupMenu.show()
+    }
+
+    private fun deleteAll() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                deleteAllChatsUseCase()
+                Toast.makeText(
+                    this@HomeChatActivity,
+                    "All chats deleted successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@HomeChatActivity,
+                    "Failed to delete chats: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun signOut() {

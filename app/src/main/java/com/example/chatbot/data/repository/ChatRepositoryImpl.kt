@@ -116,6 +116,16 @@ class ChatRepositoryImpl @Inject constructor(
             listenerRegistration?.remove()
         }
     }
+    override suspend fun deleteAllChats() {
+        userUid?.let { firestore.collection("users").document(it)
+            .collection("chats")
+        }?.get()
+            ?.await()
+            ?.documents
+            ?.forEach { document ->
+                document.reference.delete()
+            }
+    }
     companion object {
         private const val TAG = "ChatRepositoryImpl"
     }

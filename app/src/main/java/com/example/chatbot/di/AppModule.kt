@@ -14,6 +14,7 @@ import com.example.chatbot.domain.repository.AuthRepositoryWithFacebook
 import com.example.chatbot.domain.repository.AuthRepositoryWithGithub
 import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
 import com.example.chatbot.domain.repository.ChatRepository
+import com.example.chatbot.domain.usecase.DeleteAllChatsUseCase
 import com.example.chatbot.domain.usecase.FacebookSignInUseCase
 import com.example.chatbot.domain.usecase.GithubSignInUseCase
 import com.example.chatbot.domain.usecase.GoogleSignInUseCase
@@ -90,5 +91,12 @@ object AppModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().build()
+    }
+    @Provides
+    @Singleton
+    fun provideDeleteAllChatsUseCase(
+        chatRepository: ChatRepository
+    ): DeleteAllChatsUseCase {
+        return DeleteAllChatsUseCase(chatRepository)
     }
 }
