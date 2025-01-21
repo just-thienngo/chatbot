@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.HomeFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.homeChat.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
         >
@@ -24,13 +24,13 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.ChatFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.homeChat.ChatFragment"
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat"
         />
     <fragment
         android:id="@+id/allChatFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.AllChatFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.homeChat.AllChatFragment"
         android:label="AllChatFragment"
         tools:layout="@layout/fragment_all_chat"
         >

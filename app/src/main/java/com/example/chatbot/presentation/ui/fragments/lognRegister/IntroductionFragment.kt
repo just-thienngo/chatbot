@@ -1,4 +1,4 @@
-package com.example.chatbot.presentation.ui.fragments
+package com.example.chatbot.presentation.ui.fragments.lognRegister
 
 import android.content.Intent
 import android.os.Bundle
