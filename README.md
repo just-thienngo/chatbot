@@ -69,7 +69,7 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 2.  **Open Project:** Open the project in Android Studio.
 3.  **Configure Firebase:** Configure Firebase for your project.
 4.  **Run Application:** Select a device or emulator and run the application.
-
+<!--
 ## 💻 Usage Guide
 
 1.  **Login:** Choose one of the login methods to create an account or sign in to an existing account.
@@ -83,7 +83,7 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 ## 📄 License
 
 *   This application is released under the MIT license.
-
+-->
 ## 📬 Contact
 
 *   If you have any questions, please contact us via email at thienngo2003@gmail.com.
