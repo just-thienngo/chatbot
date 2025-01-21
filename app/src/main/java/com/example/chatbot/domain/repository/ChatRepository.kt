@@ -13,4 +13,5 @@ interface ChatRepository {
     fun fetchMessages(chatId: String): Flow<List<Message>>
     suspend fun deleteChat(chatId: String)
     fun fetchAllChats(): Flow<List<Chat>>
+    suspend fun deleteAllChats()
 }
