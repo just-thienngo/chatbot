@@ -14,10 +14,17 @@ import com.example.chatbot.domain.repository.AuthRepositoryWithFacebook
 import com.example.chatbot.domain.repository.AuthRepositoryWithGithub
 import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
 import com.example.chatbot.domain.repository.ChatRepository
-import com.example.chatbot.domain.usecase.DeleteAllChatsUseCase
-import com.example.chatbot.domain.usecase.FacebookSignInUseCase
-import com.example.chatbot.domain.usecase.GithubSignInUseCase
-import com.example.chatbot.domain.usecase.GoogleSignInUseCase
+import com.example.chatbot.domain.usecase.chat.CreateNewChatUseCase
+import com.example.chatbot.domain.usecase.chat.DeleteAllChatsUseCase
+import com.example.chatbot.domain.usecase.chat.DeleteChatUseCase
+import com.example.chatbot.domain.usecase.chat.FetchAllChatsUseCase
+import com.example.chatbot.domain.usecase.chat.FetchMessagesUseCase
+import com.example.chatbot.domain.usecase.chat.SendMessageUseCase
+import com.example.chatbot.domain.usecase.chat.UpdateChatTimestampUseCase
+import com.example.chatbot.domain.usecase.chat.UpdateLastMessageUseCase
+import com.example.chatbot.domain.usecase.auth.FacebookSignInUseCase
+import com.example.chatbot.domain.usecase.auth.GithubSignInUseCase
+import com.example.chatbot.domain.usecase.auth.GoogleSignInUseCase
 import com.example.chatbot.presentation.utils.Constants.INTRODUCTION_SP
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -98,5 +105,39 @@ object AppModule {
         chatRepository: ChatRepository
     ): DeleteAllChatsUseCase {
         return DeleteAllChatsUseCase(chatRepository)
+    }
+    @Provides
+    fun provideSendMessageUseCase(chatRepository: ChatRepository): SendMessageUseCase {
+        return SendMessageUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideUpdateLastMessageUseCase(chatRepository: ChatRepository): UpdateLastMessageUseCase {
+        return UpdateLastMessageUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideUpdateChatTimestampUseCase(chatRepository: ChatRepository): UpdateChatTimestampUseCase {
+        return UpdateChatTimestampUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideCreateNewChatUseCase(chatRepository: ChatRepository): CreateNewChatUseCase {
+        return CreateNewChatUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideFetchMessagesUseCase(chatRepository: ChatRepository): FetchMessagesUseCase {
+        return FetchMessagesUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideDeleteChatUseCase(chatRepository: ChatRepository): DeleteChatUseCase {
+        return DeleteChatUseCase(chatRepository)
+    }
+
+    @Provides
+    fun provideFetchAllChatsUseCase(chatRepository: ChatRepository): FetchAllChatsUseCase {
+        return FetchAllChatsUseCase(chatRepository)
     }
 }

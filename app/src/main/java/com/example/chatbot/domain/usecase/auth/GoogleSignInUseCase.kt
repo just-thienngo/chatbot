@@ -1,4 +1,4 @@
-package com.example.chatbot.domain.usecase
+package com.example.chatbot.domain.usecase.auth
 
 import com.example.chatbot.domain.repository.AuthRepositoryWithGoogle
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
