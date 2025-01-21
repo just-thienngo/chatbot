@@ -41,39 +41,48 @@ class DayChatHistoryAdapterForMenu(
 
     private fun getTimeAgo(date: Date?): String {
         if (date == null) return "Unknown"
+
         val now = Date()
         val diffInMillis = now.time - date.time
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-
-        val nowCalendar = Calendar.getInstance()
-        val diffDays = TimeUnit.MILLISECONDS.toDays(nowCalendar.timeInMillis - calendar.timeInMillis)
 
         val seconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
         val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
         val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
-        val weeks = days / 7
-        val months = days / 30
-        val years = days / 365
+
+        // Get calendar instances for more accurate month/year calculations
+        val calendar = Calendar.getInstance().apply { time = date }
+        val nowCalendar = Calendar.getInstance()
+
+        // Calculate months and years difference
+        var months = (nowCalendar.get(Calendar.YEAR) - calendar.get(Calendar.YEAR)) * 12 +
+                (nowCalendar.get(Calendar.MONTH) - calendar.get(Calendar.MONTH))
+        val years = months / 12
+        months %= 12
 
         return when {
-            diffDays == 0L -> when {
-                seconds < 60 -> "Just now"
-                minutes < 60 -> "$minutes minutes ago"
-                hours < 24 -> "$hours hours ago"
-                else -> "today"
+            // Recent times
+            seconds < 60 -> "Just now"
+            minutes < 60 -> "${minutes}m ago"
+            hours < 24 -> "${hours}h ago"
+
+            // Check for yesterday (accounting for time of day)
+            days == 1L || (days == 2L && hours < 24) -> "Yesterday"
+
+            // Days and weeks
+            days < 7 -> "$days days ago"
+            days < 30 -> "${days / 7} weeks ago"
+
+            // Months and years
+            years == 0 && months > 0 -> "$months months ago"
+            years > 0 -> if (months > 0) {
+                "$years years, $months months ago"
+            } else {
+                "$years years ago"
             }
 
-            diffDays == 1L -> "Yesterday"
-            days < 7 -> "$days days ago"
-            weeks < 4 -> "$weeks weeks ago"
-            months < 12 -> "$months months ago"
-            years < 5 -> "$years years ago"
-            else -> {
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                dateFormat.format(date)
-            }
+            // Fallback for very old dates
+            else -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date)
         }
     }
 
