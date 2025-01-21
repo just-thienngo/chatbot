@@ -1,6 +1,6 @@
 
 # 🤖 ChatAI - AI Chatbot Application
-
+<!--
 Welcome to ChatAI, a native Android AI chatbot application designed to provide an intelligent and friendly chatting experience. This application integrates many powerful features, from diverse login options to voice-to-text capabilities.
 
 
@@ -22,12 +22,12 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 
 ### Figma Design
 
-*   [Link Figma Design](https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0)
+*   [Link Figma Design](https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0)-->
 
 ### Speech to Chat Demo
 
 ![App Demo](https://s2.ezgif.com/tmp/ezgif-2-42ab92d01b.gif)
-
+<!--
 ### 1. Authentication
 
 *   **Login:**
@@ -59,7 +59,7 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 *   **APIs:**
     *   Uses an AI API to respond to messages
     *   Google Speech to Text API
-
+-->
 ## ⚙️ Installation Guide
 
 1.  **Clone Repository:**
