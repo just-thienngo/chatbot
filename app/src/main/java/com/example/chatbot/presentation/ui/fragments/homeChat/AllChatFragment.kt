@@ -1,4 +1,4 @@
-package com.example.chatbot.presentation.ui.fragments
+package com.example.chatbot.presentation.ui.fragments.homeChat
 
 import ChatItemAdapter
 import android.os.Bundle

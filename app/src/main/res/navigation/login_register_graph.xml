@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.SignUpFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.lognRegister.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_signup"
         >
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.LoginFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.lognRegister.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login"
         >
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/introductionFragment"
-        android:name="com.example.chatbot.presentation.ui.fragments.IntroductionFragment"
+        android:name="com.example.chatbot.presentation.ui.fragments.lognRegister.IntroductionFragment"
         android:label="IntroductionFragment"
         tools:layout="@layout/fragment_introduction"
         >
