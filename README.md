@@ -1,4 +1,4 @@
-<!--
+
 # 🤖 ChatAI - AI Chatbot Application
 <!--
 Welcome to ChatAI, a native Android AI chatbot application designed to provide an intelligent and friendly chatting experience. This application integrates many powerful features, from diverse login options to voice-to-text capabilities.
