@@ -64,7 +64,7 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 
 1.  **Clone Repository:**
     ```bash
-    git clone https://github.com/chjthjen/chatbot
+    git clone https://github.com/tkjen/chatbot
     ```
 2.  **Open Project:** Open the project in Android Studio.
 3.  **Configure Firebase:** Configure Firebase for your project.
