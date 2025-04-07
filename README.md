@@ -20,7 +20,7 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 
 ## 🖼️ Preview Layout
 
-### Figma Design
+### Activity
 
 *   [Link Figma Design](https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0)
 -->
