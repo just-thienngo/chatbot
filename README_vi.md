@@ -73,13 +73,6 @@ Chào mừng đến với ChatAI, một ứng dụng chatbot AI gốc trên Andr
 2. **Trò Chuyện:** Sử dụng giao diện chat để trò chuyện với chatbot.
 3. **Chuyển Đổi Giọng Nói:** Nhấn vào biểu tượng micro để nhập liệu bằng giọng nói.
 
-## 🤝 Đóng Góp
-
-* Nếu bạn có ý tưởng, đóng góp hoặc tìm thấy lỗi, hãy tạo pull request hoặc issue trên GitHub.
-
-## 📄 Giấy Phép
-
-* Ứng dụng này được phát hành dưới giấy phép MIT.
 
 ## 📬 Liên Hệ
 
