@@ -75,16 +75,3 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 2.  **Chat:** Use the chat interface to converse with the chatbot.
 3.  **Speech to Text:** Tap on the microphone icon to input text using your voice.
 
-## 🤝 Contributing
-
-*   If you have ideas, contributions, or find a bug, please create a pull request or issue on GitHub.
-
-## 📄 License
-
-*   This application is released under the MIT license.
--->
-## 📬 Contact
-
-*   If you have any questions, please contact us via email at thienngo2003@gmail.com.
-
----
