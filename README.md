@@ -1,9 +1,4 @@
 
-# 🤖 ChatAI - AI Chatbot Application
-
-Welcome to ChatAI, a native Android AI chatbot application designed to provide an intelligent and friendly chatting experience. This application integrates many powerful features, from diverse login options to voice-to-text capabilities.
-
-
 [Vietnamese version here](./README_vi.md)
 
 ## 🚀 Key Features
@@ -59,19 +54,4 @@ Welcome to ChatAI, a native Android AI chatbot application designed to provide a
 *   **APIs:**
     *   Uses an AI API to respond to messages
     *   Google Speech to Text API
--->
-## ⚙️ Installation Guide
-
-1.  **Clone Repository:**
-    ```bash
-    git clone https://github.com/tkjen/chatbot
-    ```
-2.  **Open Project:** Open the project in Android Studio.
-3.  **Configure Firebase:** Configure Firebase for your project.
-4.  **Run Application:** Select a device or emulator and run the application.
-## 💻 Usage Guide
-
-1.  **Login:** Choose one of the login methods to create an account or sign in to an existing account.
-2.  **Chat:** Use the chat interface to converse with the chatbot.
-3.  **Speech to Text:** Tap on the microphone icon to input text using your voice.
 
