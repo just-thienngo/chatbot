@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatbot.domain.usecase.auth.EmailPasswordSignInUseCase
-import com.example.chatbot.domain.usecase.auth.FacebookSignInUseCase
-import com.example.chatbot.domain.usecase.auth.GithubSignInUseCase
-import com.example.chatbot.domain.usecase.auth.GoogleSignInUseCase
-import com.example.chatbot.domain.usecase.auth.ResetPasswordUseCase
+import com.example.chatbot.domain.usecase.auth.AuthUseCase
+import com.example.chatbot.domain.usecase.auth.SocialAuthUseCase
 import com.example.chatbot.presentation.utils.Resource
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -21,11 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val googleSignInUseCase: GoogleSignInUseCase,
-    private val facebookSignInUseCase: FacebookSignInUseCase,
-    private val githubSignInUseCase: GithubSignInUseCase,
-    private val emailPasswordSignInUseCase: EmailPasswordSignInUseCase,
-    private val resetPasswordUseCase: ResetPasswordUseCase
+    private val socialAuthUseCase: SocialAuthUseCase,
+    private val authUseCase: AuthUseCase
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Resource<FirebaseUser>>(Resource.Unspecified())
@@ -38,32 +32,33 @@ class LoginViewModel @Inject constructor(
 
     fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         viewModelScope.launch {
-            val result = googleSignInUseCase(account)
-            _loginResult.value = if(result) Resource.Success(null) else Resource.Error("Google Sign In Failed")
+            val result = socialAuthUseCase(account)
+            _loginResult.value = result
         }
     }
 
     fun firebaseAuthWithFacebook(token: AccessToken) {
         viewModelScope.launch {
-            val result = facebookSignInUseCase(token)
-            _loginResult.value = if(result) Resource.Success(null) else Resource.Error("Facebook Sign In Failed")
+            val result = socialAuthUseCase(token)
+            _loginResult.value = result
         }
     }
+    
     fun signInWithGithub(accessToken: String) {
         viewModelScope.launch {
-            val result = githubSignInUseCase(accessToken)
+            val result = socialAuthUseCase(accessToken)
             _loginResult.value = result
         }
     }
     fun exchangeGithubCodeForToken(code: String){
         viewModelScope.launch {
-            val result = githubSignInUseCase(code)
+            val result = socialAuthUseCase(code)
             _loginResult.value = result
         }
     }
     fun signInWithEmailAndPassword(email: String, password: String){
         viewModelScope.launch {
-            val result = emailPasswordSignInUseCase(email,password)
+            val result = authUseCase(email, password)
             _loginResult.value = result
         }
     }
@@ -72,7 +67,7 @@ class LoginViewModel @Inject constructor(
             _resetPassword.emit(Resource.Loading())
         }
         viewModelScope.launch {
-            val result = resetPasswordUseCase(email)
+            val result = authUseCase.resetPassword(email)
             _resetPassword.emit(result)
         }
 

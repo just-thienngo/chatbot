@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatbot.R
-import com.example.chatbot.domain.usecase.chat.DeleteAllChatsUseCase
-import com.example.chatbot.domain.usecase.auth.SignOutUseCase
+import com.example.chatbot.domain.usecase.chat.ChatUseCase
+import com.example.chatbot.domain.usecase.auth.AuthUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -22,10 +22,10 @@ import javax.inject.Inject
 class HomeChatActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var signOutUseCase: SignOutUseCase
+    lateinit var authUseCase: AuthUseCase
     private lateinit var auth: FirebaseAuth
     @Inject
-    lateinit var deleteAllChatsUseCase: DeleteAllChatsUseCase
+    lateinit var chatUseCase: ChatUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class HomeChatActivity : AppCompatActivity() {
     private fun deleteAll() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                deleteAllChatsUseCase()
+                chatUseCase.deleteAllChats()
                 Toast.makeText(
                     this@HomeChatActivity,
                     "All chats deleted successfully",
@@ -87,7 +87,7 @@ class HomeChatActivity : AppCompatActivity() {
 
     private fun signOut() {
         CoroutineScope(Dispatchers.Main).launch {
-            signOutUseCase()
+            authUseCase.signOut()
             Intent(this@HomeChatActivity, LoginRegisterActivity::class.java).also { intent ->
                 startActivity(intent)
             }

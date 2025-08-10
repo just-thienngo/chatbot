@@ -4,30 +4,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Message
 import com.example.chatbot.data.remote.ChatApiService
-import com.example.chatbot.domain.usecase.chat.CreateNewChatUseCase
-import com.example.chatbot.domain.usecase.chat.FetchMessagesUseCase
-import com.example.chatbot.domain.usecase.chat.SendMessageUseCase
-import com.example.chatbot.domain.usecase.chat.UpdateChatTimestampUseCase
-import com.example.chatbot.domain.usecase.chat.UpdateLastMessageUseCase
+import com.example.chatbot.data.remote.generateChatResponse
+import com.example.chatbot.domain.usecase.chat.ChatUseCase
 import com.example.chatbot.presentation.utils.Resource
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatApiService: ChatApiService,
-    private val createNewChatUseCase: CreateNewChatUseCase,
-    private val sendMessageUseCase: SendMessageUseCase,
-    private val fetchMessagesUseCase: FetchMessagesUseCase,
-    private val updateLastMessageUseCase: UpdateLastMessageUseCase,
-    private val updateChatTimestampUseCase: UpdateChatTimestampUseCase,
-    private val firebaseAuth: FirebaseAuth
+    private val chatUseCase: ChatUseCase
+    // FirebaseAuth is not needed here as the repository handles it
 ) : ViewModel() {
 
     private val _messages = MutableStateFlow<List<Message>>(emptyList())
@@ -37,73 +30,82 @@ class ChatViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private var currentChatId: String? = null
-    private val userUid = firebaseAuth.currentUser?.uid
 
-    companion object {
-        private const val TAG = "ChatViewModel"
+    fun setChatId(chatId: String) {
+        if (currentChatId != chatId) {
+            currentChatId = chatId
+            fetchMessages()
+        }
     }
 
-
-    fun setChatId(chatId: String){
-        currentChatId = chatId
-        fetchMessages()
-    }
-    fun sendMessage(message: String) {
+    fun sendMessage(messageText: String) {
         viewModelScope.launch {
-            if (currentChatId == null) {
-                currentChatId = UUID.randomUUID().toString()
-                currentChatId?.let { createNewChatUseCase(it)  }
+            val chatId = currentChatId ?: UUID.randomUUID().toString().also { newChatId ->
+                currentChatId = newChatId
+                chatUseCase.createNewChat(newChatId)
+                fetchMessages()
             }
-            val myMessage = Message(message, Message.SENT_BY_ME)
-            _messages.value += myMessage
-            currentChatId?.let {  sendMessageUseCase(myMessage, it) }
+
+            val myMessage = Message(
+                message = messageText,
+                sentBy = Message.SENT_BY_ME,
+                timestamp = Date()
+            )
+
+            chatUseCase(myMessage, chatId)
 
             _isLoading.value = true
-            when (val response = chatApiService.generateResponse(message)) {
+
+            when (val response = chatApiService.generateChatResponse(messageText)) {
                 is Resource.Success -> {
                     response.data?.let { reply ->
-                        val botMessage = Message(reply, Message.SENT_BY_BOT)
-                        _messages.value += botMessage
-                        currentChatId?.let { sendMessageUseCase(botMessage, it)}
+                        val botMessage = Message(
+                            message = reply,
+                            sentBy = Message.SENT_BY_BOT,
+                            timestamp = Date()
+                        )
+                        // FIX 1: Use the 'invoke' operator here as well
+                        chatUseCase(botMessage, chatId)
                     }
                 }
                 is Resource.Error -> {
                     val errorMessage = Message(
-                        response.message ?: "An error occurred",
-                        Message.SENT_BY_BOT
+                        message = response.message ?: "An error occurred",
+                        sentBy = Message.SENT_BY_BOT,
+                        timestamp = Date()
                     )
-                    _messages.value += errorMessage
-                    currentChatId?.let { sendMessageUseCase(errorMessage, it) }
+                    // FIX 1: Use the 'invoke' operator here too
+                    chatUseCase(errorMessage, chatId)
                 }
-                else -> Unit
+                // FIX 2: Add the 'else' branch to make the 'when' exhaustive
+                else -> {
+                    // Handle other cases like Loading or Unspecified, or do nothing
+                }
             }
             _isLoading.value = false
         }
     }
-    private fun updateLastMessage(chatId: String, message: String){
-        viewModelScope.launch {
-            updateLastMessageUseCase(chatId, message)
-        }
-    }
-    private fun updateChatTimestamp(chatId: String){
-        viewModelScope.launch {
-            updateChatTimestampUseCase(chatId)
-        }
-    }
-    private fun createNewChat(){
-        viewModelScope.launch {
-            currentChatId = UUID.randomUUID().toString()
-            currentChatId?.let { createNewChatUseCase(it) }
-        }
-        fetchMessages()
-    }
+
     private fun fetchMessages() {
         currentChatId?.let { chatId ->
             viewModelScope.launch {
-                fetchMessagesUseCase(chatId).collect{
-                    _messages.value = it
+                chatUseCase.fetchMessages(chatId).collect { messagesFromFirestore ->
+                    _messages.value = messagesFromFirestore
                 }
             }
+        }
+    }
+
+    // These helper functions remain unchanged
+    private fun updateLastMessage(chatId: String, message: String){
+        viewModelScope.launch {
+            chatUseCase.updateLastMessage(chatId, message)
+        }
+    }
+
+    private fun updateChatTimestamp(chatId: String){
+        viewModelScope.launch {
+            chatUseCase.updateChatTimestamp(chatId)
         }
     }
 }

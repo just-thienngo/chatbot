@@ -26,6 +26,7 @@ class MessageAdapter(private val messageList: List<Message>) :
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val message = messageList[position]
+
         when (message.sentBy) {
             Message.SENT_BY_ME -> {
                 holder.leftChatView.visibility = View.GONE
