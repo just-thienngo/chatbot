@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatbot.data.model.Chat
 import com.example.chatbot.data.model.ChatHistoryItem
-import com.example.chatbot.domain.repository.AuthRepository
-import com.example.chatbot.domain.repository.ChatRepository
+import com.example.chatbot.domain.usecase.auth.AuthUseCase
+import com.example.chatbot.domain.usecase.chat.ChatUseCase
 import com.example.chatbot.presentation.utils.Resource
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,14 +19,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val chatRepository: ChatRepository,
-    private val authRepository: AuthRepository,
-
-    ) : ViewModel() {
+    private val chatUseCase: ChatUseCase,
+    private val authUseCase: AuthUseCase
+) : ViewModel() {
 
     private val _chatHistory = MutableLiveData<Resource<List<ChatHistoryItem>>>(Resource.Unspecified())
     val chatHistory: LiveData<Resource<List<ChatHistoryItem>>> = _chatHistory
-    private val userUid = authRepository.getCurrentUser()?.uid
+    private val userUid = authUseCase.getCurrentUser()?.uid
     companion object {
         private const val TAG = "HomeViewModel"
     }
@@ -39,7 +38,7 @@ class HomeViewModel @Inject constructor(
     private fun fetchChats() {
         viewModelScope.launch {
             _chatHistory.value = Resource.Loading()
-            chatRepository.fetchAllChats().collect{chats ->
+            chatUseCase.fetchAllChats().collect{chats ->
                 val groupedChats = chats.groupBy { chat ->
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                     dateFormat.format(chat.timestamp ?: Date())
@@ -55,7 +54,7 @@ class HomeViewModel @Inject constructor(
     }
     fun deleteChat(chatId: String) {
         viewModelScope.launch {
-            chatRepository.deleteChat(chatId)
+            chatUseCase.deleteChat(chatId)
         }
     }
 }

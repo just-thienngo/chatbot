@@ -4,40 +4,44 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+    <!-- Bubble bên trái -->
     <LinearLayout
+        android:id="@+id/left_chat_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/left_chat_view"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="80dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/red"
         android:padding="8dp"
-        android:layout_marginEnd="80dp"
-        >
+        android:visibility="gone">
+
         <TextView
+            android:id="@+id/left_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/left_chat_text_view"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
     </LinearLayout>
+
+    <!-- Bubble bên phải -->
     <LinearLayout
+        android:id="@+id/right_chat_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/right_chat_view"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="80dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="@color/half_transparent"
         android:padding="8dp"
-        android:layout_marginStart="80dp"
-        >
+        android:visibility="gone">
+
         <TextView
+            android:id="@+id/right_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/right_chat_text_view"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </RelativeLayout>
