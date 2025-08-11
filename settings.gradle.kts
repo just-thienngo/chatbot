@@ -21,4 +21,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "ChatBot"
 include(":app")
- 
+include(":features:auth")
+include(":features:chat")
+include(":navigation")
+include(":data:remote")
+include(":data:repository-impl")
+include(":domain:repository")
+include(":domain:common-entity")
+include(":features:home")
