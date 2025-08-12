@@ -25,5 +25,7 @@ include(
     ":data:repository-impl",
     ":domain:repository",
     ":domain:common-entity",
-    ":features:home"
+    ":features:home",
+    ":core-common"
 )
+
