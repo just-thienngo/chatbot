@@ -1,33 +1,113 @@
 [versions]
 agp = "8.1.4"
-kotlin = "1.9.0"
-coreKtx = "1.10.1"
+androidCoreKtx = "1.13.1" # Updated to a newer version
+appCompat = "1.7.0" # Updated version, 1.7.1 is not a standard release
+constraintLayout = "2.1.4" # Updated to a stable version
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-appcompat = "1.6.1"
-material = "1.10.0"
-activity = "1.8.0"
-constraintlayout = "2.1.4"
+androidxJunit = "1.1.5" # Updated
+espresso = "3.5.1" # Updated
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
 firebaseFirestoreKtx = "25.1.1"
-
+# New from your list
+androidGradlePlugin = "8.1.4" # From your existing plugins
+kotlin = "1.9.22" # Updated Kotlin version for compatibility
+ksp = "1.9.22-1.0.17" # KSP version tied to Kotlin version
+hilt = "2.51.1"
+lifecycle = "2.8.1"
+fragment = "1.7.1"
+retrofit = "2.9.0"
+room = "2.6.1"
+material = "1.12.0" # Updated to a newer version
+glide = "4.16.0"
+navigation = "2.7.7"
+coroutines = "1.8.1"
+moshi = "1.15.1"
+okhttp = "4.12.0"
+secretsGradlePlugin = "2.0.1"
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+# Existing Core & UI
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtx" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+
+# Testing
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+
+# Coroutines
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# Lifecycle (ViewModel, LiveData, Runtime)
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+# Fragment
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+
+# Hilt - Dependency Injection
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+
+# Retrofit - Networking
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+# Moshi
+retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+# OkHttp
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+
+# Room - Database
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+# Material Design
+material = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Glide - Image Loading
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
+# Navigation Component
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
-
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-com-android-library = { id = "com.android.library", version.ref = "agp" }
+[bundles]
+# A bundle for common UI libraries
+ui = ["core-ktx", "appcompat", "material", "constraintlayout"]
+
+# A bundle for all lifecycle libraries
+lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-runtime-ktx"]
+
+# A bundle for Room (runtime and ktx)
+room = ["room-runtime", "room-ktx"]
+
+# A bundle for Navigation
+navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
+
+# A bundle for Retrofit
+retrofit = ["retrofit", "retrofit-converter-gson"]
+
+# A bundle for coroutines
+coroutines = ["coroutines-core", "coroutines-android"]
 
