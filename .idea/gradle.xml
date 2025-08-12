@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/core-common" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/remote" />
             <option value="$PROJECT_DIR$/data/repository-impl" />
