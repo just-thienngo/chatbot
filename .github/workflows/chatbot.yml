@@ -39,27 +39,21 @@ jobs:
           GH_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           GH_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          echo "--- Setting up API Keys and Base URL ---"
-          # Ghi các secret API Key và Base URL vào biến môi trường GitHub Actions
-          # Điều này sẽ làm cho System.getenv("API_KEY") và System.getenv("BASE_URL") có giá trị
-          echo "API_KEY=$GH_API_KEY" >> $GITHUB_ENV
-          echo "BASE_URL=$GH_BASE_URL" >> $GITHUB_ENV
+            echo "--- Setting up API Keys and Base URL ---"
+            echo "API_KEY=$GH_API_KEY" >> $GITHUB_ENV
+            echo "BASE_URL=$GH_BASE_URL" >> $GITHUB_ENV
           
-          echo "--- Configuring Keystore for Signing ---"
-          # Tạo thư mục .android nếu chưa có
-          mkdir -p "$HOME/.android"
-          KEYSTORE_FILE="$HOME/.android/release.jks" # Đường dẫn file keystore tạm thời
+            echo "--- Configuring Keystore for Signing ---"
+            mkdir -p "$HOME/.android"
+            KEYSTORE_FILE="$HOME/.android/release.jks"
+            echo $GH_KEYSTORE_BASE64 | base64 --decode > "$KEYSTORE_FILE"
           
-          # Giải mã chuỗi Base64 Keystore thành file .jks
-          echo $GH_KEYSTORE_BASE64 | base64 --decode > "$KEYSTORE_FILE"
+            echo "KEYSTORE_PATH=$KEYSTORE_FILE" >> $GITHUB_ENV
+            echo "KEYSTORE_PASSWORD=$GH_KEYSTORE_PASSWORD" >> $GITHUB_ENV
+            echo "KEY_ALIAS=$GH_KEY_ALIAS" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=$GH_KEY_PASSWORD" >> $GITHUB_ENV
           
-          # Thiết lập các biến môi trường cho việc ký ứng dụng
-          echo "KEYSTORE_PATH=$KEYSTORE_FILE" >> $GITHUB_ENV
-          echo "KEYSTORE_PASSWORD=$GH_KEYSTORE_PASSWORD" >> $GITHUB_ENV
-          echo "KEY_ALIAS=$GH_KEY_ALIAS" >> $GITHUB_ENV
-          echo "KEY_PASSWORD=$GH_KEY_PASSWORD" >> $GITHUB_ENV
-          
-          echo "Environment variables for secrets and keystore set."
+            echo "Environment variables for secrets and keystore set."
 
       - name: Run Unit Tests for Domain Module
         # Chạy Unit Tests cụ thể cho module ':domain'
