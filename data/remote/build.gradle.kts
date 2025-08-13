@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     id("chatbot-android-library")
     id("chatbot-hilt")
-    alias(libs.plugins.secrets)
+   // alias(libs.plugins.secrets)
 }
 
 // Hàm đọc giá trị config
@@ -29,9 +29,9 @@ fun readConfigValue(key: String): String {
 val apiKey: String by lazy { readConfigValue("apiKey") }
 val baseUrl: String by lazy { readConfigValue("baseUrl") }
 
-secrets {
-    defaultPropertiesFileName = "${project.projectDir}/release.properties"
-}
+//secrets {
+//    defaultPropertiesFileName = "${project.projectDir}/release.properties"
+//}
 
 android {
     namespace = "com.example.remote"
