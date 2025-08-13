@@ -53,6 +53,11 @@ android {
         release {
             buildConfigField("String", "API_KEY", "\"${apiKey.trim()}\"")
             buildConfigField("String", "BASE_URL", "\"${baseUrl.trim()}\"")
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
