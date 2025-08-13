@@ -53,7 +53,7 @@ jobs:
           echo "Secrets and keystore configured."
 
       - name: Run Unit Tests for Domain Module
-        run: ./gradlew :domain:testDebugUnitTest --info
+        run: ./gradlew :domain:testReleaseUnitTest --info
 
       - name: Build Release APK
         run: ./gradlew assembleRelease --stacktrace
