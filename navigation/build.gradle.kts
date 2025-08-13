@@ -20,7 +20,12 @@ android {
 dependencies {
 
     implementation(libs.bundles.ui)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.navigation.fragment.ktx)
+
+
 }

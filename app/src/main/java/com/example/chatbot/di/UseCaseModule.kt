@@ -1,11 +1,11 @@
 package com.example.chatbot.di
 
-import com.example.chatbot.domain.repository.AuthRepository
-import com.example.chatbot.domain.repository.ChatRepository
-import com.example.chatbot.domain.repository.SocialAuthRepository
-import com.example.chatbot.domain.usecase.auth.AuthUseCase
-import com.example.chatbot.domain.usecase.auth.SocialAuthUseCase
-import com.example.chatbot.domain.usecase.chat.ChatUseCase
+import com.example.repository.AuthRepository
+import com.example.repository.ChatRepository
+import com.example.repository.SocialAuthRepository
+import com.example.usecase.auth.AuthUseCase
+import com.example.usecase.auth.SocialAuthUseCase
+import com.example.usecase.chat.ChatUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

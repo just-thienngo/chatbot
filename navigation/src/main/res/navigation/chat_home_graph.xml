@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_home_graph"
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.chat.ui.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"
+        >
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/enter_right_to_left"
+            app:exitAnim="@anim/exit_right_to_left" />
+        <action
+            android:id="@+id/action_homeFragment_to_allChatFragment"
+            app:destination="@id/allChatFragment"
+            app:enterAnim="@anim/enter_right_to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.chat.ui.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat"
+        />
+    <fragment
+        android:id="@+id/allChatFragment"
+        android:name="com.example.chat.ui.AllChatFragment"
+        android:label="AllChatFragment"
+        tools:layout="@layout/fragment_all_chat"
+        >
+        <action
+            android:id="@+id/action_allChatFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+</navigation>

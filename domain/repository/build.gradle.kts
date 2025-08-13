@@ -23,7 +23,6 @@ dependencies {
     implementation(libs.bundles.ui)
     implementation(project(mapOf("path" to ":core-common")))
     implementation(project(mapOf("path" to ":domain:common-entity")))
-    implementation(project(mapOf("path" to ":data:repository-impl")))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
