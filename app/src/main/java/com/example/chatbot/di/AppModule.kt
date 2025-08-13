@@ -2,7 +2,7 @@ package com.example.chatbot.di
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
-import com.example.chatbot.presentation.utils.Constants.INTRODUCTION_SP
+import com.example.code.common.utils.Constants.INTRODUCTION_SP
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

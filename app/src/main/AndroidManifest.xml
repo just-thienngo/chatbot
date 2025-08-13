@@ -19,7 +19,7 @@
         android:theme="@style/Theme.ChatBot"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.activities.LaunchActivity"
+            android:name="com.example.auth.ui.LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +27,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ui.activities.LoginRegisterActivity"
+            android:name="com.example.auth.ui.LoginRegisterActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".presentation.ui.activities.HomeChatActivity"
+            android:name="com.example.chat.ui.HomeChatActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".presentation.ui.activities.MenuActivity"
+            android:name="com.example.chat.ui.MenuActivity"
             android:exported="true">
         </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

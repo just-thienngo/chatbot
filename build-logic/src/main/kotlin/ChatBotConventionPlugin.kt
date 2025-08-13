@@ -34,6 +34,8 @@ class ChatBotConventionPlugin : Plugin<Project> {
                 // Bật các tính năng build nếu cần
                 buildFeatures {
                     buildConfig = true
+                    viewBinding = true
+                    dataBinding = true
                 }
 
 

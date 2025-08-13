@@ -12,7 +12,12 @@ dependencies {
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 
-
+    implementation(project(mapOf("path" to ":core-common")))
+    implementation(project(mapOf("path" to ":features:auth")))
+    implementation(project(mapOf("path" to ":features:chat")))
+    implementation(project(mapOf("path" to ":domain:repository")))
+    implementation(project(mapOf("path" to ":domain:usecase")))
+    implementation(project(mapOf("path" to ":data:repository-impl")))
 
     // Coroutines
     implementation(libs.bundles.coroutines)

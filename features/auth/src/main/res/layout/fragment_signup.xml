@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_primary"
+    tools:context=".ui.LoginRegisterActivity">
+
+    <LinearLayout
+        android:id="@+id/ln_textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ChatAI"
+            android:textColor="@color/white"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:fontFamily="@font/league_spartan" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please Login To Your Account"
+            android:textColor="@color/text_secondary"
+            android:gravity="center" />
+
+
+        <ImageView
+            android:id="@+id/img_or"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_or"
+            android:layout_marginTop="50dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="30dp"
+            android:layout_marginTop="50dp">
+
+
+            <LinearLayout
+                android:id="@+id/ln_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/tv_custom"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="30dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_person"
+                    android:contentDescription="User Icon"
+                    android:layout_gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/edFullName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/surface"
+                    android:textColorHint="@color/text_disabled"
+                    android:hint="Enter Your Name"
+                    android:inputType="textPersonName"
+                    android:layout_marginTop="6dp"
+                    android:textSize="12dp"
+                    android:paddingStart="8dp"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+            <!-- Emaail Field -->
+            <LinearLayout
+                android:id="@+id/ln_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/tv_custom"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="30dp"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_email"
+                    android:contentDescription="Password Icon"
+                    android:layout_gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/edEmailRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter Your Email"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="8dp"
+                    android:textColor="@color/surface"
+                    android:textColorHint="@color/text_disabled"
+                    android:textSize="12dp" />
+            </LinearLayout>
+            <!-- Password Field -->
+            <LinearLayout
+                android:id="@+id/ln_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/tv_custom"
+                android:paddingVertical="12dp"
+
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_lock"
+                    android:contentDescription="Password Icon"
+                    android:layout_gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/edPasswordRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter Your Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    android:textColor="@color/surface"
+                    android:textColorHint="@color/text_disabled"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+
+            <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/btn_signup"
+                android:layout_width="355dp"
+                android:layout_height="53dp"
+                android:background="@drawable/btn_custom"
+                android:text="Create Account"
+                android:layout_marginTop="50dp"
+                app:spinning_bar_color="@color/text_primary"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_have_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already Have Account?"
+                android:gravity="center"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textColor="@color/red"
+                android:paddingStart="4dp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,11 +1,12 @@
 package com.example.chatbot.di
 
-import com.example.chatbot.data.repository.AuthRepositoryImpl
-import com.example.chatbot.data.repository.ChatRepositoryImpl
-import com.example.chatbot.data.repository.SocialAuthRepositoryImpl
-import com.example.chatbot.domain.repository.AuthRepository
-import com.example.chatbot.domain.repository.ChatRepository
-import com.example.chatbot.domain.repository.SocialAuthRepository
+
+import com.example.repository.AuthRepository
+import com.example.repository.ChatRepository
+import com.example.repository.SocialAuthRepository
+import com.example.repository_impl.AuthRepositoryImpl
+import com.example.repository_impl.ChatRepositoryImpl
+import com.example.repository_impl.SocialAuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module

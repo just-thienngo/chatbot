@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ChatBot</string>
+    <string name="tittelLaunch">The Future of Chat is Here With AI Technology</string>
+    <string name="contentLaunch">
+        "The future of chat is here with AI technology" implies that the integration of AI into chat
+        technology is already happening and that its an
+        exciting development for the way we communicate.
+        AI-powered chatbots are becoming increasingly sophisticated and are able to
+        understand and respond to natural language,.</string>
+    
+    <string name="web_id">652753919184-6q2nboq0cj4r7t723j4ti7olf3a1cd88.apps.googleusercontent.com</string>
+
+    <string name="facebook_app_id">1347092579591439</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">32a725edcbf609b540c6fbcf31ba1e46</string>
+    <string name="github_client_id">Ov23lijScIuB6UHm0SG4</string>
+
+
+</resources>
