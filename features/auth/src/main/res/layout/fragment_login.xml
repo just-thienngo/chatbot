@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/text_primary"
+    >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="20dp"
+    >
+
+    <!-- Tiêu đề "ChatAI" -->
+<TextView
+android:id="@+id/tv_chat_ai_title"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:text="ChatAI"
+android:textColor="@color/white"
+android:textSize="50sp"
+    android:gravity="center"
+    android:fontFamily="@font/league_spartan"
+    android:layout_marginTop="100dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Lời mời đăng nhập -->
+<TextView
+android:id="@+id/tv_login_prompt"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:text="Please Login To Your Account"
+android:textColor="@color/text_secondary"
+android:gravity="center"
+android:layout_marginTop="8dp"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/tv_chat_ai_title" />
+
+    <!-- Các nút đăng nhập xã hội (Google, Facebook, Github) -->
+<LinearLayout
+android:id="@+id/ln_imgButton"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:layout_marginTop="50dp"
+android:gravity="center"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/tv_login_prompt" >
+
+<ImageButton
+    android:id="@+id/img_google"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:src="@drawable/ic_google"
+    android:background="?android:attr/selectableItemBackground"
+    android:contentDescription="Google Login" />
+
+<ImageButton
+    android:id="@+id/img_facebook"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:src="@drawable/ic_facebook"
+    android:background="?android:attr/selectableItemBackground"
+    android:contentDescription="Facebook Login" />
+
+<ImageButton
+    android:id="@+id/img_github"
+    android:layout_width="0dp"
+    android:layout_height="70dp"
+    android:layout_weight="1"
+    android:src="@drawable/ic_github_mark"
+    android:background="?android:attr/selectableItemBackground"
+    android:contentDescription="GitHub Login" />
+</LinearLayout>
+
+    <!-- Dòng "or" -->
+<ImageView
+android:id="@+id/img_or"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:src="@drawable/img_or"
+android:layout_marginTop="30dp"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/ln_imgButton"
+android:contentDescription="Or divider" />
+
+    <!-- Khung nhập Email -->
+<LinearLayout
+android:id="@+id/ln_email_input"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:background="@drawable/tv_custom"
+android:paddingVertical="12dp"
+android:paddingHorizontal="16dp"
+android:layout_marginStart="30dp"
+android:layout_marginEnd="30dp"
+android:layout_marginTop="20dp"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/img_or" >
+
+<ImageView
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:src="@drawable/ic_person"
+    android:contentDescription="User Icon"
+    android:layout_gravity="center_vertical" />
+
+<EditText
+    android:id="@+id/et_email"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_weight="1"
+android:textColor="@color/surface"
+android:textColorHint="@color/text_disabled"
+android:hint="Enter Your Email"
+android:inputType="textEmailAddress"
+android:textSize="12sp"
+android:paddingStart="8dp"
+android:background="@android:color/transparent" />
+</LinearLayout>
+
+    <!-- Khung nhập Mật khẩu -->
+<LinearLayout
+android:id="@+id/ln_password_input"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:background="@drawable/tv_custom"
+android:paddingVertical="12dp"
+android:paddingHorizontal="16dp"
+android:layout_marginStart="30dp"
+android:layout_marginEnd="30dp"
+android:layout_marginTop="20dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/ln_email_input">
+
+<ImageView
+android:layout_width="24dp"
+android:layout_height="24dp"
+android:src="@drawable/ic_lock"
+android:contentDescription="Password Icon"
+android:layout_gravity="center_vertical" />
+
+<EditText
+android:id="@+id/et_password"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_weight="1"
+android:background="@android:color/transparent"
+android:hint="Enter Your Password"
+android:inputType="textPassword"
+android:paddingStart="8dp"
+android:textColor="@color/surface"
+android:textColorHint="@color/text_disabled"
+android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Quên mật khẩu -->
+<TextView
+android:id="@+id/tv_forget_password"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:text="Forget Password?"
+android:textColor="@color/red"
+android:layout_marginTop="10dp"
+android:layout_marginEnd="30dp"
+android:gravity="end"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/ln_password_input" />
+
+    <!-- Nút Login -->
+<com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+android:id="@+id/btnLogin"
+android:layout_width="250dp"
+android:layout_height="53dp"
+android:background="@drawable/btn_custom"
+android:text="Login"
+android:layout_marginTop="20dp"
+app:spinning_bar_color="@color/text_primary"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/tv_forget_password" />
+
+    <!-- Đăng ký tài khoản mới -->
+<LinearLayout
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:gravity="center"
+android:layout_marginTop="10dp"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+
+<TextView
+    android:id="@+id/tv_dont_have_account"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Don’t Have Account?"
+    android:gravity="center"
+    android:textColor="@color/text_secondary" />
+
+<TextView
+    android:id="@+id/tv_sign_up"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Sign Up"
+    android:textColor="@color/red"
+    android:paddingStart="4dp"
+    android:textStyle="bold"
+    android:clickable="true"
+    android:focusable="true" />
+</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>

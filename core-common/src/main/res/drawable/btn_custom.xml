@@ -1,0 +1,5 @@
+<!-- res/drawable/button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="#D71E1E" />
+  <corners android:radius="20dp" />
+</shape>
