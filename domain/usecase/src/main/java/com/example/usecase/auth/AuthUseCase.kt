@@ -1,10 +1,10 @@
-package com.example.chatbot.domain.usecase.auth
+package com.example.usecase.auth
 
-import com.example.chatbot.data.model.User
-import com.example.chatbot.domain.repository.AuthRepository
-import com.example.chatbot.presentation.utils.Resource
+
+import com.example.code.common.utils.Resource
+import com.example.repository.AuthRepository
 import com.google.firebase.auth.FirebaseUser
-
+import com.google.firebase.firestore.auth.User
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
