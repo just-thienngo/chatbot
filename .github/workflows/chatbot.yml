@@ -65,13 +65,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: domain-unit-test-report
-          path: domain/build/reports/tests/testDebugUnitTest/
+          path: domain/usecase/build/reports/tests/testDebugUnitTest/
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          path: app/build/outputs/apk/release/*.apk
 
       - name: Upload Release AAB
         uses: actions/upload-artifact@v4
