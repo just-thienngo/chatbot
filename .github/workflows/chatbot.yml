@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - dev
+    tags:
+      - 'v*'
   pull_request:
     branches:
       - main
@@ -52,7 +54,7 @@ jobs:
           
           echo "Secrets and keystore configured."
 
-      - name: Run Unit Tests for Domain Module
+      - name: Run Unit Tests for Domain Usecase Module
         run: ./gradlew :domain:usecase:testReleaseUnitTest --info
 
       - name: Build Release APK
@@ -61,20 +63,35 @@ jobs:
       - name: Build Release AAB
         run: ./gradlew bundleRelease --stacktrace
 
-      - name: Upload Domain Unit Test Report
+      - name: Upload Domain Usecase Unit Test Report
         uses: actions/upload-artifact@v4
         with:
-          name: domain-unit-test-report
-          path: domain/usecase/build/reports/tests/testDebugUnitTest/
+          name: domain-usecase-unit-test-report
+          path: domain/usecase/build/reports/tests/testReleaseUnitTest/
 
-      - name: Upload Release APK
+      # Các bước upload artifact TẠM THỜI này vẫn cần thiết nếu bạn muốn tải xuống chúng từ trang workflow run
+      # Nhưng để đưa chúng vào Release, chúng ta sẽ sử dụng bước 'Create Release' bên dưới
+      - name: Upload Release APK as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
+          name: release-apk-workflow-artifact
           path: app/build/outputs/apk/release/*.apk
 
-      - name: Upload Release AAB
+      - name: Upload Release AAB as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-aab
+          name: release-aab-workflow-artifact
           path: app/build/outputs/bundle/release/app-release.aab
+
+      # --- BƯỚC MỚI ĐỂ TẠO GITHUB RELEASE ---
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') # Chỉ chạy khi workflow được kích hoạt bởi một tag
+        uses: softprops/action-gh-release@v2 # Sử dụng action để tạo release
+        with:
+          files: |
+            app/build/outputs/apk/release/*.apk # Đường dẫn đến APK
+            app/build/outputs/bundle/release/*.aab # Đường dẫn đến AAB
+          prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-rc') }} # Tùy chọn: đánh dấu là pre-release nếu tag chứa '-beta' hoặc '-rc'
+          generate_release_notes: true # Tự động tạo release notes từ commit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token mặc định, có đủ quyền
