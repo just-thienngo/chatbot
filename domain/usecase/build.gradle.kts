@@ -22,8 +22,12 @@ dependencies {
     implementation(project(mapOf("path" to ":domain:repository")))
     implementation(project(mapOf("path" to ":domain:common-entity")))
     testImplementation(libs.junit)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("io.mockk:mockk:1.13.5")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
+
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-analytics")
