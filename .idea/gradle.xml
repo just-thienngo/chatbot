@@ -31,6 +31,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/common-entity" />
             <option value="$PROJECT_DIR$/domain/repository" />
+            <option value="$PROJECT_DIR$/domain/usecase" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/chat" />

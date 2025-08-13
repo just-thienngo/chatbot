@@ -26,6 +26,8 @@ include(
     ":domain:repository",
     ":domain:common-entity",
     ":features:home",
-    ":core-common"
+    ":core-common",
+    ":domain:usecase"
 )
+
 
