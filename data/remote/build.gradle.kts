@@ -1,24 +1,31 @@
 import java.util.Properties
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("chatbot-android-library")
     id("chatbot-hilt")
     alias(libs.plugins.secrets)
 }
 
-// Hàm đọc giá trị từ file hoặc ENV
+// Hàm đọc giá trị config
 fun readConfigValue(key: String): String {
-    val propsFile = file("${project.projectDir}/release.properties")
-    return if (propsFile.exists()) {
-        Properties().apply { load(propsFile.inputStream()) }
-            .getProperty(key, "")
-    } else {
+    val isCI = System.getenv("GITHUB_ACTIONS") == "true"
+    return if (isCI) {
+        // Khi chạy trên GitHub Actions → luôn lấy từ ENV
         System.getenv(key.uppercase()) ?: ""
+    } else {
+        // Khi chạy local → ưu tiên file release.properties, fallback ENV
+        val propsFile = file("${project.projectDir}/release.properties")
+        if (propsFile.exists()) {
+            Properties().apply { load(propsFile.inputStream()) }
+                .getProperty(key, "")
+        } else {
+            System.getenv(key.uppercase()) ?: ""
+        }
     }
 }
 
-// Đọc các giá trị cần thiết
+// Đọc từ file hoặc ENV
 val apiKey: String by lazy { readConfigValue("apiKey") }
 val baseUrl: String by lazy { readConfigValue("baseUrl") }
 
@@ -46,9 +53,13 @@ android {
         release {
             buildConfigField("String", "API_KEY", "\"${apiKey.trim()}\"")
             buildConfigField("String", "BASE_URL", "\"${baseUrl.trim()}\"")
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
-
 }
 
 dependencies {
