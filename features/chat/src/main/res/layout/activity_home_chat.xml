@@ -52,14 +52,30 @@
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
-
+    <!-- app/src/main/res/layout/activity_home_chat.xml -->
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-2678727679739567/4181876797"/> <!-- DÁN ID BANNER VÀO ĐÂY -->
+    </FrameLayout>
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_above="@id/ad_view_container"
         app:defaultNavHost="true"
         app:navGraph="@navigation/chat_home_graph" />
+
 
 </RelativeLayout>

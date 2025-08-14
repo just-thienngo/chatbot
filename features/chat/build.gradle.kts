@@ -51,4 +51,6 @@ dependencies {
 
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.fragment.ktx)
+    implementation("com.google.android.gms:play-services-ads:24.5.0")
+    implementation(project(mapOf("path" to ":ads")))
 }
