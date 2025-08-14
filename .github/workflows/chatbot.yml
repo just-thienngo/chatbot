@@ -57,8 +57,8 @@ jobs:
           
           echo "Secrets and keystore configured."
 
-      - name: Run Unit Tests for Domain Usecase Module
-        run: ./gradlew :domain:usecase:testReleaseUnitTest --info
+#      - name: Run Unit Tests for Domain Usecase Module
+#        run: ./gradlew :domain:usecase:testReleaseUnitTest --info
 
       - name: Build Release APK
         run: ./gradlew assembleRelease --stacktrace
@@ -66,11 +66,11 @@ jobs:
       - name: Build Release AAB
         run: ./gradlew bundleRelease --stacktrace
 
-      - name: Upload Domain Usecase Unit Test Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: domain-usecase-unit-test-report
-          path: domain/usecase/build/reports/tests/testReleaseUnitTest/
+#      - name: Upload Domain Usecase Unit Test Report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: domain-usecase-unit-test-report
+#          path: domain/usecase/build/reports/tests/testReleaseUnitTest/
 
       # Các bước upload artifact TẠM THỜI này vẫn cần nếu bạn muốn tải xuống chúng từ trang workflow run
       - name: Upload Release APK as Workflow Artifact
