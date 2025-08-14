@@ -42,9 +42,7 @@ class ChatBotConventionPlugin : Plugin<Project> {
                         // Lấy đường dẫn keystore từ biến môi trường
                         storeFile = System.getenv("KEYSTORE_PATH")?.let { File(it) } ?: run {
                             logger.warn("KEYSTORE_PATH environment variable is not set or file not found. Release build might be unsigned.")
-                            // Trong môi trường CI, nếu biến này không có, build nên thất bại
-                            // Có thể throw Exception ở đây nếu bạn muốn build fail rõ ràng khi thiếu keystore
-                            File("dummy.jks") // Fallback an toàn nhưng không ký
+                            File("dummy.jks")
                         }
                         storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
                         keyAlias = System.getenv("KEY_ALIAS") ?: ""
@@ -53,18 +51,16 @@ class ChatBotConventionPlugin : Plugin<Project> {
                 }
 
                 // --- CẤU HÌNH CÁC BUILD TYPE CỤ THỂ CHO APPLICATION ---
-                // Bao gồm cả việc áp dụng cấu hình ký và minify/proguard
                 buildTypes {
                     getByName("debug") {
                         isMinifyEnabled = false // Không minify cho debug
                     }
                     getByName("release") {
-                        isMinifyEnabled = true // Minify cho release (thường là true)
+                        isMinifyEnabled = false // Minify cho release (thường là true)
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro"
                         )
-                        // --- ÁP DỤNG CẤU HÌNH KÝ CHO BUILD TYPE RELEASE ---
                         signingConfig = signingConfigs.getByName("releaseConfig")
                     }
                 }
