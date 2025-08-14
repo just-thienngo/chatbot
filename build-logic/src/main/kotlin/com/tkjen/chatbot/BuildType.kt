@@ -11,7 +11,7 @@ internal fun Project.configureBuildType(commonExtension: CommonExtension<*, *, *
 
             // SỬA LỖI Ở ĐÂY: Dùng getByName cho build type đã tồn tại
             getByName("release") {
-                isMinifyEnabled = false
+                isMinifyEnabled = true
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
