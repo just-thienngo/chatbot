@@ -35,6 +35,7 @@ dependencies {
     // Coroutines
     implementation(libs.bundles.coroutines)
     implementation(project(mapOf("path" to ":core-common")))
+    api(project(mapOf("path" to ":core-common")))
     implementation(project(mapOf("path" to ":navigation")))
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
