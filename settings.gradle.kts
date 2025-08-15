@@ -32,3 +32,4 @@ include(
 
 
 
+include(":ads")

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.google.gms.google.services) apply false
     alias(libs.plugins.navigation.safeargs) apply false
+    alias(libs.plugins.secrets) apply false
 
 }
 

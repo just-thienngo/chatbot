@@ -58,4 +58,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
 
+    // Ads
+    implementation(project(mapOf("path" to ":ads")))
+
+
 }

@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.auth.R
 
+
 class LaunchActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,5 +20,7 @@ class LaunchActivity: AppCompatActivity() {
             startActivity(intent)
             finish()
         }, 2000)
+
     }
+
 }
