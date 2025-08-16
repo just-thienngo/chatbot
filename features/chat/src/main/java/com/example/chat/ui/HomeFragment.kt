@@ -41,15 +41,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupRecyclerView() {
-        dayChatHistoryAdapter = DayChatHistoryAdapter(emptyList(), onDeleteChat = {
-            // we will implement deleteChat method
-        }, onChatClick = { chatId ->
-            findNavController().navigate(
-                com.example.navigation.R.id.action_homeFragment_to_chatFragment,
-                Bundle().apply {
-                    putString("chatId", chatId)
-                })
-        })
+        dayChatHistoryAdapter = DayChatHistoryAdapter(
+            onDeleteChat = { chatId ->
+                viewModel.deleteChat(chatId)
+            },
+            onChatClick = { chatId ->
+                findNavController().navigate(
+                    com.example.navigation.R.id.action_homeFragment_to_chatFragment,
+                    Bundle().apply {
+                        putString("chatId", chatId)
+                    }
+                )
+            }
+        )
+
         binding.rcvTimechat.apply {
             adapter = dayChatHistoryAdapter
             layoutManager = LinearLayoutManager(context)
@@ -75,21 +80,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 is Resource.Success -> {
                     Log.d("HomeFragment", "observeViewModel: chats=${result.data}")
                     binding.progressBar.visibility = View.GONE
+
                     val sortedChats = (result.data ?: emptyList()).sortedByDescending {
-                        it.chats.maxByOrNull { chat ->
-                            chat.timestamp?.time ?: 0
-                        }?.timestamp
+                        it.chats.maxByOrNull { chat -> chat.timestamp?.time ?: 0 }?.timestamp
                     }
-                    dayChatHistoryAdapter = DayChatHistoryAdapter(sortedChats, onDeleteChat = { chatId ->
-                        viewModel.deleteChat(chatId)
-                    }, onChatClick = { chatId ->
-                        findNavController().navigate(
-                            com.example.navigation.R.id.action_homeFragment_to_chatFragment,
-                            Bundle().apply {
-                                putString("chatId", chatId)
-                            })
-                    })
-                    binding.rcvTimechat.adapter = dayChatHistoryAdapter
+
+                    // ✅ Chỉ gọi submitList thay vì tạo adapter mới
+                    dayChatHistoryAdapter.submitList(sortedChats)
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE

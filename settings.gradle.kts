@@ -27,8 +27,10 @@ include(
     ":domain:common-entity",
     ":features:home",
     ":core-common",
-    ":domain:usecase"
+    ":domain:usecase",
+    ":ads"
 )
+
 
 
 

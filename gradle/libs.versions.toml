@@ -11,8 +11,8 @@ firebaseAuth = "23.1.0"
 firebaseFirestoreKtx = "25.1.1"
 # New from your list
 androidGradlePlugin = "8.1.4" # From your existing plugins
-kotlin = "1.9.22" # Updated Kotlin version for compatibility
-ksp = "1.9.22-1.0.17" # KSP version tied to Kotlin version
+kotlin = "2.0.0" # Updated Kotlin version for compatibility
+ksp = "2.0.0-1.0.21" # KSP version tied to Kotlin version
 hilt = "2.51.1"
 lifecycle = "2.8.1"
 fragment = "1.7.1"

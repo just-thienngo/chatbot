@@ -18,8 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class AllChatFragment:Fragment(R.layout.fragment_all_chat) {
-    private lateinit var binding: FragmentAllChatBinding
+class AllChatFragment : Fragment(R.layout.fragment_all_chat) {
+    private var _binding: FragmentAllChatBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: AllChatViewModel by viewModels()
     private lateinit var chatItemAdapter: ChatItemAdapter
 
@@ -27,10 +29,11 @@ class AllChatFragment:Fragment(R.layout.fragment_all_chat) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAllChatBinding.inflate(inflater)
+    ): View {
+        _binding = FragmentAllChatBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
@@ -38,33 +41,33 @@ class AllChatFragment:Fragment(R.layout.fragment_all_chat) {
     }
 
     private fun setupRecyclerView() {
-        chatItemAdapter = ChatItemAdapter(emptyList(), onDeleteChat = {
-            // handle delete chat here
-        }, onChatClick = { chatId ->
-            findNavController().navigate(
-                com.example.navigation.R.id.action_allChatFragment_to_chatFragment,
-                Bundle().apply {
-                    putString("chatId", chatId)
-                })
-        })
+        chatItemAdapter = ChatItemAdapter(
+            onDeleteChat = { chatId ->
+                viewModel.deleteChat(chatId) // gọi xóa trong VM
+            },
+            onChatClick = { chatId ->
+                findNavController().navigate(
+                    com.example.navigation.R.id.action_allChatFragment_to_chatFragment,
+                    Bundle().apply { putString("chatId", chatId) }
+                )
+            }
+        )
+
         binding.rcvAllChat.apply {
             adapter = chatItemAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
+
     private fun observeViewModel() {
-        viewModel.chats.observe(viewLifecycleOwner){ chats ->
+        viewModel.chats.observe(viewLifecycleOwner) { chats ->
             Log.d("AllChatFragment", "observeViewModel: chats=$chats")
-            chatItemAdapter = ChatItemAdapter(chats, onDeleteChat = {
-                // handle delete chat here
-            }, onChatClick = { chatId ->
-                findNavController().navigate(
-                    com.example.navigation.R.id.action_allChatFragment_to_chatFragment,
-                    Bundle().apply {
-                        putString("chatId", chatId)
-                    })
-            })
-            binding.rcvAllChat.adapter = chatItemAdapter
+            chatItemAdapter.submitList(chats) // chỉ submitList, không tạo adapter mới
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

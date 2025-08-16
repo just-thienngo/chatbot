@@ -57,12 +57,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(emptyList())
+        messageAdapter = MessageAdapter()
         binding.recyclerView.apply {
             adapter = messageAdapter
-            layoutManager = LinearLayoutManager(context).apply {
-                stackFromEnd = true
-            }
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
@@ -162,10 +160,22 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.messages.collect { messages ->
-                messageAdapter = MessageAdapter(messages)
-                binding.recyclerView.adapter = messageAdapter
-                binding.recyclerView.smoothScrollToPosition(messages.size)
-                if (messages.isNotEmpty()) binding.welcomeText.visibility = View.GONE
+                // KHÔNG TẠO ADAPTER MỚI Ở ĐÂY!
+                // Chỉ gọi submitList() trên instance adapter đã có
+                messageAdapter.submitList(messages)
+
+                // Cuộn xuống cuối sau khi danh sách được cập nhật
+                // (Đảm bảo danh sách không rỗng trước khi cuộn để tránh lỗi index)
+                if (messages.isNotEmpty()) {
+                    binding.recyclerView.smoothScrollToPosition(messages.size - 1) // Cuộn đến item cuối cùng
+                }
+
+                // Ẩn welcome text
+                if (messages.isNotEmpty()) {
+                    binding.welcomeText.visibility = View.GONE
+                } else {
+                    binding.welcomeText.visibility = View.VISIBLE // Hiển thị lại nếu danh sách rỗng
+                }
             }
         }
     }
