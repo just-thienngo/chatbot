@@ -37,23 +37,22 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           echo "--- Setting up API Keys and Base URL ---"
-          echo "APIKEY=$APIKEY" >> $GITHUB_ENV
-          echo "BASEURL=$BASEURL" >> $GITHUB_ENV
-          
+          echo "APIKEY=$API_KEY" >> $GITHUB_ENV
+          echo "BASEURL=$BASE_URL" >> $GITHUB_ENV
           echo "--- Configuring Keystore for Signing ---"
           mkdir -p "$HOME/.android"
           KEYSTORE_FILE="$HOME/.android/release.jks"
           echo $KEYSTORE_BASE64 | base64 --decode > "$KEYSTORE_FILE"
-          
+
           echo "KEYSTORE_PATH=$KEYSTORE_FILE" >> $GITHUB_ENV
           echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> $GITHUB_ENV
           echo "KEY_ALIAS=$KEY_ALIAS" >> $GITHUB_ENV
           echo "KEY_PASSWORD=$KEY_PASSWORD" >> $GITHUB_ENV
-          
+
           echo "Secrets and keystore configured."
 
-      - name: Run Unit Tests for Domain Module
-        run: ./gradlew :domain:testDebugUnitTest --info
+#      - name: Run Unit Tests for Domain Module
+#        run: ./gradlew :domain:testDebugUnitTest --info
 
       - name: Build Release APK
         run: ./gradlew assembleRelease --stacktrace

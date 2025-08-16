@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     id("chatbot-android-library")
     id("chatbot-hilt")
-    alias(libs.plugins.secrets)
+  //  alias(libs.plugins.secrets)
 }
 
 // Hàm đọc giá trị config
