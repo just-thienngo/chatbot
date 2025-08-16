@@ -29,16 +29,16 @@ jobs:
 
       - name: Configure Secrets and Keystore
         env:
-          API_KEY: ${{ secrets.API_KEY }}
-          BASE_URL: ${{ secrets.BASE_URL }}
+          API_KEY: ${{ secrets.APIKEY }}
+          BASE_URL: ${{ secrets.BASEURL }}
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           echo "--- Setting up API Keys and Base URL ---"
-          echo "API_KEY=$API_KEY" >> $GITHUB_ENV
-          echo "BASE_URL=$BASE_URL" >> $GITHUB_ENV
+          echo "APIKEY=$APIKEY" >> $GITHUB_ENV
+          echo "BASEURL=$BASEURL" >> $GITHUB_ENV
           
           echo "--- Configuring Keystore for Signing ---"
           mkdir -p "$HOME/.android"
