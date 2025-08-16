@@ -90,7 +90,7 @@ class ChatViewModel @Inject constructor(
         currentChatId?.let { chatId ->
             viewModelScope.launch {
                 chatUseCase.fetchMessages(chatId).collect { messagesFromFirestore ->
-                    _messages.value = messagesFromFirestore
+                    _messages.value = messagesFromFirestore.sortedBy { it.timestamp }
                 }
             }
         }
