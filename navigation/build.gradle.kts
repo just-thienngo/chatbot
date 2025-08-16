@@ -26,6 +26,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.fragment.ktx)
-
+    implementation(project(mapOf("path" to ":core-common")))
 
 }

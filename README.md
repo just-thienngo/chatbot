@@ -1,27 +1,9 @@
 
-[Vietnamese version here](./README_vi.md)
-
-## 🚀 Key Features
-
-*   **Diverse Login Options:**
-    *   Login with Google, Facebook, GitHub, and Email & Password
-    *   Password recovery support
-*   **Smart AI Chatbot:**
-    *   Integrated AI to answer questions and assist users.
-    *   Intuitive and easy-to-use chat interface.
-*   **Speech to Text:**
-    *   Converts speech to text, allowing users to input text quickly and conveniently.
-    *   Supports voice input for chatting with the chatbot.
-
 ## 🖼️ Preview Layout
 
 ### Activity
 
 *   [Link Figma Design](https://www.figma.com/design/5sU9Kluch3umYzWnQNZ6KH/ChatAI--Ai-Chatbot-UI-(Community)?node-id=0-1&p=f&t=PpGilhSGFCJk0zHa-0)
--->
-### Speech to Chat Demo
-
-![App Demo](https://s2.ezgif.com/tmp/ezgif-2-42ab92d01b.gif)
 
 ### 1. Authentication
 
@@ -39,19 +21,5 @@
 *  ChatBot Layout:
    ![5f6b27b9dbf464aa3de5](https://github.com/user-attachments/assets/fb560a38-4560-4128-b84b-144b8335037a)
 
-## 🛠️ Technologies Used
 
-*   **Programming Language:** Kotlin
-*   **Framework:** Android SDK
-*   **Libraries:**
-    *   Hilt
-    *   Coroutines
-    *   Firebase Auth
-    *   Firebase Firestore
-    *   Speech Recognizer
-    *   Retrofit
-    *   ... and other libraries
-*   **APIs:**
-    *   Uses an AI API to respond to messages
-    *   Google Speech to Text API
 

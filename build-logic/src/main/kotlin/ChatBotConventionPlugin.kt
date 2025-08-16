@@ -1,12 +1,12 @@
-// File: build-logic/src/main/kotlin/ApplicationConventionPlugin.kt
+
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.tkjen.chatbot.ChatBotConfig
-import com.tkjen.chatbot.configureBuildType
 import com.tkjen.chatbot.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import java.io.File
 
 class ChatBotConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -17,28 +17,53 @@ class ChatBotConventionPlugin : Plugin<Project> {
             // pluginManager.apply("com.google.dagger.hilt.android")
 
             extensions.configure<ApplicationExtension> {
-
+                // Áp dụng cấu hình Kotlin/Android chung
                 configureKotlinAndroid(this)
-                configureBuildType(this)
 
-                // 2. Thêm các cấu hình chỉ dành riêng cho module application
+                // Cấu hình chỉ dành riêng cho module application
                 namespace = "com.example.chatbot"
 
                 defaultConfig {
-                    targetSdk = ChatBotConfig.compileSDK // Dùng lại biến cho nhất quán
+                    targetSdk = ChatBotConfig.compileSDK
                     versionCode = 1
                     versionName = "1.0"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                // Bật các tính năng build nếu cần
                 buildFeatures {
                     buildConfig = true
                     viewBinding = true
                     dataBinding = true
                 }
 
+                // --- ĐỊNH NGHĨA CÁC CẤU HÌNH KÝ ---
+                signingConfigs {
+                    create("releaseConfig") {
+                        // Lấy đường dẫn keystore từ biến môi trường
+                        storeFile = System.getenv("KEYSTORE_PATH")?.let { File(it) } ?: run {
+                            logger.warn("KEYSTORE_PATH environment variable is not set or file not found. Release build might be unsigned.")
+                            File("dummy.jks")
+                        }
+                        storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
+                        keyAlias = System.getenv("KEY_ALIAS") ?: ""
+                        keyPassword = System.getenv("KEY_PASSWORD") ?: ""
+                    }
+                }
 
+                // --- CẤU HÌNH CÁC BUILD TYPE CỤ THỂ CHO APPLICATION ---
+                buildTypes {
+                    getByName("debug") {
+                        isMinifyEnabled = false // Không minify cho debug
+                    }
+                    getByName("release") {
+                        isMinifyEnabled = false // Minify cho release (thường là true)
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android-optimize.txt"),
+                            "proguard-rules.pro"
+                        )
+                        signingConfig = signingConfigs.getByName("releaseConfig")
+                    }
+                }
             }
         }
     }

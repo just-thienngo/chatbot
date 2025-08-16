@@ -5,6 +5,7 @@ import com.example.code.common.utils.Resource
 import com.example.remote.models.ChatRequest
 import com.example.remote.models.ChatResponse
 import com.example.remote.models.Content
+import com.example.remote.BuildConfig
 import com.example.remote.models.Part
 import retrofit2.http.Body
 import retrofit2.http.POST
