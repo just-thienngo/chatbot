@@ -163,11 +163,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 // KHÔNG TẠO ADAPTER MỚI Ở ĐÂY!
                 // Chỉ gọi submitList() trên instance adapter đã có
                 messageAdapter.submitList(messages)
-
-                // Cuộn xuống cuối sau khi danh sách được cập nhật
-                // (Đảm bảo danh sách không rỗng trước khi cuộn để tránh lỗi index)
                 if (messages.isNotEmpty()) {
-                    binding.recyclerView.smoothScrollToPosition(messages.size - 1) // Cuộn đến item cuối cùng
+                    binding.recyclerView.post {
+                        binding.recyclerView.smoothScrollToPosition(messages.size - 1)
+                    }
                 }
 
                 // Ẩn welcome text
