@@ -29,26 +29,28 @@ jobs:
 
       - name: Configure Secrets and Keystore
         env:
-          API_KEY: ${{ secrets.APIKEY }}
-          BASE_URL: ${{ secrets.BASEURL }}
+          API_KEY: ${{ secrets.APIKEY }} # Biến môi trường cho bước này
+          BASE_URL: ${{ secrets.BASEURL }} # Biến môi trường cho bước này
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           echo "--- Setting up API Keys and Base URL ---"
+          # Sử dụng đúng tên biến môi trường đã được định nghĩa ở trên (có dấu gạch dưới)
           echo "APIKEY=$API_KEY" >> $GITHUB_ENV
           echo "BASEURL=$BASE_URL" >> $GITHUB_ENV
+          
           echo "--- Configuring Keystore for Signing ---"
           mkdir -p "$HOME/.android"
           KEYSTORE_FILE="$HOME/.android/release.jks"
           echo $KEYSTORE_BASE64 | base64 --decode > "$KEYSTORE_FILE"
-
+          
           echo "KEYSTORE_PATH=$KEYSTORE_FILE" >> $GITHUB_ENV
           echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> $GITHUB_ENV
           echo "KEY_ALIAS=$KEY_ALIAS" >> $GITHUB_ENV
           echo "KEY_PASSWORD=$KEY_PASSWORD" >> $GITHUB_ENV
-
+          
           echo "Secrets and keystore configured."
 
 #      - name: Run Unit Tests for Domain Module
@@ -60,11 +62,11 @@ jobs:
       - name: Build Release AAB
         run: ./gradlew bundleRelease --stacktrace
 
-      - name: Upload Domain Unit Test Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: domain-unit-test-report
-          path: domain/build/reports/tests/testDebugUnitTest/
+#      - name: Upload Domain Unit Test Report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: domain-unit-test-report
+#          path: domain/build/reports/tests/testDebugUnitTest/
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
