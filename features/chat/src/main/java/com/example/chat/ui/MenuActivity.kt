@@ -35,10 +35,12 @@ class MenuActivity: AppCompatActivity(R.layout.activity_menu) {
         overridePendingTransition(com.example.code.common.R.anim.enter_right_to_left,com.example.code.common.R.anim.enter_right_to_left)
     }
     private fun setupRecyclerView() {
-        dayChatHistoryAdapter = DayChatHistoryAdapterForMenu(emptyList())
+        dayChatHistoryAdapter = DayChatHistoryAdapterForMenu()
         binding.rcvTimechat1.apply {
             adapter = dayChatHistoryAdapter
             layoutManager = LinearLayoutManager(context)
+            // Gửi một list trống ban đầu nếu cần
+            dayChatHistoryAdapter.submitList(emptyList())
         }
     }
     private fun observeViewModel() {
@@ -54,7 +56,7 @@ class MenuActivity: AppCompatActivity(R.layout.activity_menu) {
                     val sortedChats = (result.data ?: emptyList()).sortedByDescending {
                         it.date
                     }
-                    dayChatHistoryAdapter = DayChatHistoryAdapterForMenu(sortedChats)
+                    dayChatHistoryAdapter.submitList(sortedChats)
                         // handle delete chat here)
                     binding.rcvTimechat1.adapter = dayChatHistoryAdapter
                 }

@@ -18,17 +18,22 @@ class AllChatViewModel @Inject constructor(
 
     private val _chats = MutableLiveData<List<Chat>>(emptyList())
     val chats: LiveData<List<Chat>> = _chats
-    companion object {
-        private const val TAG = "AllChatViewModel"
-    }
+
     init {
         fetchAllChats()
     }
+
     private fun fetchAllChats() {
         viewModelScope.launch {
             chatUseCase.fetchAllChats().collect { chatList ->
                 _chats.value = chatList
             }
+        }
+    }
+
+    fun deleteChat(chatId: String) {
+        viewModelScope.launch {
+            chatUseCase.deleteChat(chatId)
         }
     }
 }
