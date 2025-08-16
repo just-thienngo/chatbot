@@ -30,7 +30,7 @@ suspend fun ChatApiService.generateChatResponse(question: String): Resource<Stri
         )
         
         val response = generateResponse(
-            apiKey = BuildConfig.apiKey,
+            apiKey = BuildConfig.API_KEY,
             request = request
         )
         
