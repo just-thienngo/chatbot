@@ -20,7 +20,7 @@ android {
 dependencies {
 
     implementation(libs.bundles.ui)
-
+    implementation(project(":core-common"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)
