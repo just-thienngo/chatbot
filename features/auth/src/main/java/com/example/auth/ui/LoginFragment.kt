@@ -114,32 +114,34 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
         // Observe login result
-        loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
-            when(result){
-                is Resource.Loading -> {
-                    binding.btnLogin.startAnimation()
-                }
-                is Resource.Success -> {
-                    binding.btnLogin.revertAnimation() // hoặc binding.btnRegister.revertAnimation()
-                    Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
-
-                    // THAY THẾ TOÀN BỘ ĐOẠN CODE GÂY LỖI BẰNG CÁI NÀY:
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Routes.CHAT_HOME)).apply {
-                        // Vẫn giữ các cờ để quản lý back stack
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        lifecycleScope.launch {
+            loginViewModel.loginResult.collect { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        binding.btnLogin.startAnimation()
                     }
-                    startActivity(intent)
+                    is Resource.Success -> {
+                        binding.btnLogin.revertAnimation() // hoặc binding.btnRegister.revertAnimation()
+                        Toast.makeText(context, "Authentication successful.", Toast.LENGTH_SHORT).show()
 
-                    // Nếu bạn muốn Fragment hiện tại bị đóng lại, bạn có thể gọi:
-                    // requireActivity().finish()
+                        // Navigate to the chat home screen
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Routes.CHAT_HOME)).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        startActivity(intent)
+
+                        // If you want to close the current Fragment, you can call:
+                        // requireActivity().finish()
+                    }
+                    is Resource.Error -> {
+                        binding.btnLogin.revertAnimation()
+                        Toast.makeText(context, "Authentication failed: ${result.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
                 }
-                is Resource.Error -> {
-                    binding.btnLogin.revertAnimation()
-                    Toast.makeText(context, "Authentication failed: ${result.message}", Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
             }
         }
+
 
         // Reset password
         binding.tvForgetPassword.setOnClickListener{
@@ -173,11 +175,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             // There's something already here! Finish the sign-in for your user.
             pendingResultTask
                 .addOnSuccessListener { authResult ->
-                    // User is signed in.
                     val credential = authResult.credential as OAuthCredential
                     val accessToken = credential.accessToken
                     accessToken?.let {
-                        loginViewModel.signInWithGithub(it)
+                        loginViewModel.signInWithGithub(it) // Gọi ViewModel với access token nhận được
                     } ?: run {
                         Toast.makeText(context, "GitHub access token is null", Toast.LENGTH_SHORT).show()
                     }
