@@ -18,7 +18,7 @@ dependencies {
     implementation(project(mapOf("path" to ":domain:repository")))
     implementation(project(mapOf("path" to ":domain:usecase")))
     implementation(project(mapOf("path" to ":data:repository-impl")))
-
+    implementation(project(mapOf("path" to ":data:remote")))
     // Coroutines
     implementation(libs.bundles.coroutines)
 

@@ -1,6 +1,7 @@
 package com.example.chatbot.di
 
 
+import com.example.remote.api.ChatRemoteDataSource
 import com.example.repository.AuthRepository
 import com.example.repository.ChatRepository
 import com.example.repository.SocialAuthRepository
@@ -28,13 +29,14 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepository(
         firestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
     ): AuthRepository = AuthRepositoryImpl(firestore, firebaseAuth)
 
     @Provides
     @Singleton
     fun provideChatRepository(
         firestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
-    ): ChatRepository = ChatRepositoryImpl(firestore, firebaseAuth)
+        firebaseAuth: FirebaseAuth,
+        chatRemoteDataSource: ChatRemoteDataSource
+    ): ChatRepository = ChatRepositoryImpl(firestore, firebaseAuth,chatRemoteDataSource)
 } 

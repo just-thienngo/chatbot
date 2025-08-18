@@ -22,7 +22,6 @@ class IntroductionViewModel @Inject constructor(
     val navigate: StateFlow<Int> = _navigate
 
     companion object {
-
         const val HOMECHAT_ACTIVITY = 23
         val LOGIN_FRAGMENT = com.example.navigation.R.id.action_introductionFragment_to_loginFragment
     }

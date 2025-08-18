@@ -23,6 +23,7 @@ dependencies {
     implementation(project(mapOf("path" to ":core-common")))
     implementation(project(mapOf("path" to ":domain:common-entity")))
     implementation(project(mapOf("path" to ":domain:repository")))
+    implementation(project(mapOf("path" to ":data:remote")))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,8 +1,10 @@
 package com.example.repository_impl
 
 import android.util.Log
+import com.example.code.common.utils.Resource
 import com.example.commom_entity.Chat
 import com.example.commom_entity.Message
+import com.example.remote.api.ChatRemoteDataSource
 import com.example.repository.ChatRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val chatRemoteDataSource: ChatRemoteDataSource
 ): ChatRepository {
     private val userUid = firebaseAuth.currentUser?.uid
 
@@ -33,6 +36,10 @@ class ChatRepositoryImpl @Inject constructor(
                     updateChatTimestamp(chatId)
                 }
             }
+    }
+
+    override suspend fun getAiChatResponse(userMessage: String): Resource<String> {
+        return chatRemoteDataSource.generateChatResponse(userMessage)
     }
 
     override suspend fun updateLastMessage(chatId: String, message: String) {
