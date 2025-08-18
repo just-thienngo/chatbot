@@ -19,28 +19,4 @@ interface ChatApiService {
     ): ChatResponse
 }
 
-// Extension function to convert to Resource
-suspend fun ChatApiService.generateChatResponse(question: String): Resource<String> {
-    return try {
-        val request = ChatRequest(
-            contents = listOf(
-                Content(
-                    parts = listOf(Part(text = question))
-                )
-            )
-        )
-        
-        val response = generateResponse(
-            apiKey = BuildConfig.API_KEY,
-            request = request
-        )
-        
-        val result = response.candidates.firstOrNull()
-            ?.content?.parts?.firstOrNull()?.text?.trim()
-            ?: throw Exception("Empty response from API")
-            
-        Resource.Success(result)
-    } catch (e: Exception) {
-        Resource.Error(e.message ?: "Unknown error occurred")
-    }
-} 
+

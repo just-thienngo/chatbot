@@ -1,5 +1,6 @@
 package com.example.usecase.chat
 
+import com.example.code.common.utils.Resource
 import com.example.commom_entity.Chat
 import com.example.commom_entity.Message
 import com.example.repository.ChatRepository
@@ -43,4 +44,8 @@ class ChatUseCase @Inject constructor(
     suspend fun updateChatTimestamp(chatId: String) {
         chatRepository.updateChatTimestamp(chatId)
     }
+    suspend fun getBotResponse(userMessage: String): Resource<String> {
+        return chatRepository.getAiChatResponse(userMessage)
+    }
+
 } 

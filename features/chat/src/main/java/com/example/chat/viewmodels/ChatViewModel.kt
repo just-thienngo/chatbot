@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.code.common.utils.Resource
 import com.example.commom_entity.Message
-import com.example.remote.ChatApiService
-import com.example.remote.generateChatResponse
 import com.example.usecase.chat.ChatUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val chatApiService: ChatApiService,
     private val chatUseCase: ChatUseCase
     // FirebaseAuth is not needed here as the repository handles it
 ) : ViewModel() {
@@ -56,7 +53,7 @@ class ChatViewModel @Inject constructor(
 
             _isLoading.value = true
 
-            when (val response = chatApiService.generateChatResponse(messageText)) {
+            when (val response = chatUseCase.getBotResponse(messageText)) {
                 is Resource.Success -> {
                     response.data?.let { reply ->
                         val botMessage = Message(

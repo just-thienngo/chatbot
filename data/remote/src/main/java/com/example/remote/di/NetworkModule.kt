@@ -3,6 +3,7 @@ package com.example.remote.di
 import com.example.remote.BuildConfig
 import com.example.remote.ChatApiService
 import com.example.remote.DateAdapter
+import com.example.remote.api.ChatRemoteDataSource
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -56,6 +57,11 @@ object NetworkModule {
     @Singleton
     fun provideChatApiService(retrofit: Retrofit): ChatApiService {
         return retrofit.create(ChatApiService::class.java)
+    }
+    @Provides // <-- Thêm hàm provide này
+    @Singleton
+    fun provideChatRemoteDataSource(apiService: ChatApiService): ChatRemoteDataSource {
+        return ChatRemoteDataSource(apiService)
     }
 
 

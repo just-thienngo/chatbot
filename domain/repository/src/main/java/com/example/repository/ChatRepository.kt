@@ -1,11 +1,13 @@
 
 package com.example.repository
 
+import com.example.code.common.utils.Resource
 import com.example.commom_entity.Chat
 import com.example.commom_entity.Message
 import kotlinx.coroutines.flow.Flow
 
 interface ChatRepository {
+    suspend fun getAiChatResponse(userMessage: String): Resource<String>
     suspend fun sendMessage(message: Message, chatId: String)
     suspend fun updateLastMessage(chatId: String, message: String)
     suspend fun updateChatTimestamp(chatId: String)
