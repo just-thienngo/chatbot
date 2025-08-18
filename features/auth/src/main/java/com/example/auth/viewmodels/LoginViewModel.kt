@@ -12,7 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +25,9 @@ class LoginViewModel @Inject constructor(
     private val authUseCase: AuthUseCase
 ) : ViewModel() {
 
-    private val _loginResult = MutableLiveData<Resource<FirebaseUser>>(Resource.Unspecified())
-    val loginResult: LiveData<Resource<FirebaseUser>> get() = _loginResult
+    private val _loginResult = MutableStateFlow<Resource<FirebaseUser>>(Resource.Unspecified())
+    val loginResult: StateFlow<Resource<FirebaseUser>> = _loginResult.asStateFlow()
+
 
 
     private val _resetPassword = MutableSharedFlow<Resource<String>>()
@@ -58,6 +62,7 @@ class LoginViewModel @Inject constructor(
     }
     fun signInWithEmailAndPassword(email: String, password: String){
         viewModelScope.launch {
+            _loginResult.value = Resource.Loading()
             val result = authUseCase(email, password)
             _loginResult.value = result
         }
@@ -65,10 +70,8 @@ class LoginViewModel @Inject constructor(
     fun resetPassword(email: String) {
         viewModelScope.launch {
             _resetPassword.emit(Resource.Loading())
-        }
-        viewModelScope.launch {
             val result = authUseCase.resetPassword(email)
-            _resetPassword.emit(result)
+            _resetPassword.emit(result) // Emit kết quả (Success/Error)
         }
 
     }

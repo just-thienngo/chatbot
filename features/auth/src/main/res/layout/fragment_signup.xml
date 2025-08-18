@@ -144,6 +144,13 @@
                     android:textColor="@color/surface"
                     android:textColorHint="@color/text_disabled"
                     android:textSize="12dp" />
+                <ImageView
+                    android:id="@+id/iv_toggle_password"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_eye_closed"
+                    android:contentDescription="Toggle Password" />
             </LinearLayout>
 
 
