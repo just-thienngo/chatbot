@@ -90,13 +90,13 @@ jobs:
       - name: Upload Release APK as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk-workflow-artifact
+          name: release-apk
           path: app/build/outputs/apk/release/*.apk
 
       - name: Upload Release AAB as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-aab-workflow-artifact
+          name: release-aab
           path: app/build/outputs/bundle/release/*.aab
 
       # --- BƯỚC SỬA ĐỔI ĐỂ TẠO GITHUB RELEASE ---
