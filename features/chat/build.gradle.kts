@@ -59,4 +59,6 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation("com.google.android.gms:play-services-ads:24.5.0")
     implementation(project(mapOf("path" to ":ads")))
+
+    implementation ("com.airbnb.android:lottie:3.4.0")
 }
