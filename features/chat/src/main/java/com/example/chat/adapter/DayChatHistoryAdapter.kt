@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chat.R
 import com.example.commom_entity.ChatHistoryItem
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.example.code.common.utils.getTimeAgo
+
 
 class DayChatHistoryAdapter(
     private val onDeleteChat: (String) -> Unit,
@@ -48,41 +47,6 @@ class DayChatHistoryAdapter(
         holder.chatItemAdapter.submitList(sortedChats)
     }
 
-    private fun getTimeAgo(date: Date?): String {
-        if (date == null) return "Unknown"
-
-        val now = Date()
-        val diffInMillis = now.time - date.time
-
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
-        val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
-        val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
-
-        val calendar = Calendar.getInstance().apply { time = date }
-        val nowCalendar = Calendar.getInstance()
-
-        var months = (nowCalendar.get(Calendar.YEAR) - calendar.get(Calendar.YEAR)) * 12 +
-                (nowCalendar.get(Calendar.MONTH) - calendar.get(Calendar.MONTH))
-        val years = months / 12
-        months %= 12
-
-        return when {
-            seconds < 60 -> "Just now"
-            minutes < 60 -> "${minutes}m ago"
-            hours < 24 -> "${hours}h ago"
-            days == 1L || (days == 2L && hours < 24) -> "Yesterday"
-            days < 7 -> "$days days ago"
-            days < 30 -> "${days / 7} weeks ago"
-            years == 0 && months > 0 -> "$months months ago"
-            years > 0 -> if (months > 0) {
-                "$years years, $months months ago"
-            } else {
-                "$years years ago"
-            }
-            else -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date)
-        }
-    }
 }
 
 class DayChatDiffCallback : DiffUtil.ItemCallback<ChatHistoryItem>() {

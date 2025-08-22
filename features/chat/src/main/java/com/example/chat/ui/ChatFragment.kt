@@ -54,13 +54,17 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         setupClickListeners()
         observeViewModel()
         setupSpeechRecognizer()
+        setupErrorOverlay() // Call the new setup function
     }
 
     private fun setupRecyclerView() {
         messageAdapter = MessageAdapter()
+        val layoutManager = LinearLayoutManager(context).apply {
+            stackFromEnd = true // 🔥 Quan trọng
+        }
         binding.recyclerView.apply {
             adapter = messageAdapter
-            layoutManager = LinearLayoutManager(context)
+            this.layoutManager = layoutManager
         }
     }
 
@@ -70,13 +74,29 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             if (message.isNotEmpty()) {
                 viewModel.sendMessage(message)
                 binding.messageEditText.setText("")
-                binding.welcomeText.visibility = View.GONE
+                // binding.welcomeText.visibility = View.GONE
             }
         }
 
         binding.microBtn.setOnClickListener {
+            hideErrorOverlay() // Hide error overlay when trying to use micro again
             checkPermissionAndStartListening()
         }
+    }
+
+    private fun setupErrorOverlay() {
+        binding.errorOverlayLayout.setOnClickListener {
+            hideErrorOverlay()
+        }
+    }
+
+    private fun showErrorOverlay(errorMessage: String? = null) {
+        binding.errorOverlayLayout.visibility = View.VISIBLE
+        binding.errorMessageText.text = errorMessage ?: "An error occurred. Tap to dismiss."
+    }
+
+    private fun hideErrorOverlay() {
+        binding.errorOverlayLayout.visibility = View.GONE
     }
 
     private fun setupSpeechRecognizer() {
@@ -87,25 +107,31 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
 
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onReadyForSpeech(params: Bundle?) {
+                hideErrorOverlay() // Hide error overlay when speech recognition is ready
+            }
             override fun onBeginningOfSpeech() {}
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
             override fun onEndOfSpeech() {}
             override fun onError(error: Int) {
                 Log.e("SpeechRecognizer", "Error: $error")
-                when (error){
-                    SpeechRecognizer.ERROR_AUDIO -> Log.e("SpeechRecognizer","Audio Recording Error")
-                    SpeechRecognizer.ERROR_CLIENT -> Log.e("SpeechRecognizer", "Client Error")
-                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS ->Log.e("SpeechRecognizer", "Permission Error")
-                    SpeechRecognizer.ERROR_NETWORK -> Log.e("SpeechRecognizer", "Network Error")
-                    SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> Log.e("SpeechRecognizer", "Network Timeout")
-                    SpeechRecognizer.ERROR_NO_MATCH -> Log.e("SpeechRecognizer", "No Match Found")
-                    SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> Log.e("SpeechRecognizer", "Recognizer Busy")
-                    SpeechRecognizer.ERROR_SERVER -> Log.e("SpeechRecognizer", "Server Error")
-                    SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> Log.e("SpeechRecognizer", "Speech Timeout")
-                    else -> Log.e("SpeechRecognizer", "Error with code: $error")
+                val errorMessage: String = when (error){
+                    SpeechRecognizer.ERROR_AUDIO -> "Audio recording error."
+                    SpeechRecognizer.ERROR_CLIENT -> "Speech recognition client error."
+                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> {
+                        Toast.makeText(requireContext(), "Microphone permission is required.", Toast.LENGTH_LONG).show()
+                        "Microphone permission denied."
+                    }
+                    SpeechRecognizer.ERROR_NETWORK -> "Network error. Check your internet connection."
+                    SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout."
+                    SpeechRecognizer.ERROR_NO_MATCH -> "No speech recognized. Please try again."
+                    SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Speech recognizer is busy. Try again later."
+                    SpeechRecognizer.ERROR_SERVER -> "Speech recognition server error."
+                    SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input. Timed out."
+                    else -> "An unknown speech recognition error occurred."
                 }
+                showErrorOverlay(errorMessage)
             }
             override fun onResults(results: Bundle?) {
                 val spokenText = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.get(0)
@@ -113,6 +139,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 if (spokenText != null) {
                     binding.messageEditText.setSelection(binding.messageEditText.text.length)
                 }
+                hideErrorOverlay() // Hide error overlay on successful recognition
             }
             override fun onPartialResults(partialResults: Bundle?) {}
             override fun onEvent(eventType: Int, params: Bundle?) {}
@@ -144,8 +171,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             REQUEST_RECORD_AUDIO_PERMISSION -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     startListening()
+                    hideErrorOverlay() // Hide if permission is granted and we start listening
                 }else{
                     Toast.makeText(requireContext(), "Micro permission required", Toast.LENGTH_SHORT).show()
+                    showErrorOverlay("Microphone permission denied. Cannot use voice input.")
                 }
             }
         }
@@ -160,24 +189,21 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.messages.collect { messages ->
-                // KHÔNG TẠO ADAPTER MỚI Ở ĐÂY!
-                // Chỉ gọi submitList() trên instance adapter đã có
-                messageAdapter.submitList(messages)
-                if (messages.isNotEmpty()) {
-                    binding.recyclerView.post {
-                        binding.recyclerView.smoothScrollToPosition(messages.size - 1)
-                    }
-                }
+                messageAdapter.submitList(messages) {
+                    if (messages.isNotEmpty()) {
+                        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
+                        val lastVisible = layoutManager.findLastVisibleItemPosition()
 
-                // Ẩn welcome text
-                if (messages.isNotEmpty()) {
-                    binding.welcomeText.visibility = View.GONE
-                } else {
-                    binding.welcomeText.visibility = View.VISIBLE // Hiển thị lại nếu danh sách rỗng
+                        // Nếu đang ở gần cuối thì mới auto scroll
+                        if (lastVisible >= messages.size - 2) {
+                            binding.recyclerView.smoothScrollToPosition(messages.size - 1)
+                        }
+                    }
                 }
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

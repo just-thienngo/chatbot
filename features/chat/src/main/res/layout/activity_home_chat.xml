@@ -1,81 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@color/text_primary">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+<androidx.appcompat.widget.Toolbar
+android:id="@+id/toolbar"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:fitsSystemWindows="true"
+
+app:title="@null">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Left Icon -->
+    <ImageView
+        android:id="@+id/ic_menu"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_menu"
+        android:padding="16dp" />
+
+    <!-- Centered Title -->
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:title="@null">
+        android:layout_centerInParent="true"
+        android:text="Chat AI"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- Left Icon -->
-            <ImageView
-                android:id="@+id/ic_menu"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_menu"
-                android:padding="16dp" />
-
-            <!-- Centered Title -->
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Chat AI"
-                android:fontFamily="@font/poppins"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <!-- Right Icon -->
-            <ImageView
-                android:id="@+id/ic_more"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_more_ver"
-                android:padding="16dp" />
-
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-    <!-- app/src/main/res/layout/activity_home_chat.xml -->
-    <FrameLayout
-        android:id="@+id/ad_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            app:adSize="BANNER"
-            app:adUnitId="ca-app-pub-2678727679739567/4181876797"/> <!-- DÁN ID BANNER VÀO ĐÂY -->
-    </FrameLayout>
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/ad_view_container"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/chat_home_graph" />
-
+    <!-- Right Icon -->
+    <ImageView
+        android:id="@+id/ic_more"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_more_ver"
+        android:padding="16dp" />
 
 </RelativeLayout>
+
+</androidx.appcompat.widget.Toolbar>
+
+    <!-- FragmentContainerView sẽ chiếm hết không gian còn lại sau Toolbar và trước AdView -->
+<androidx.fragment.app.FragmentContainerView
+android:id="@+id/fragmentContainerView"
+android:name="androidx.navigation.fragment.NavHostFragment"
+android:layout_width="match_parent"
+android:layout_height="0dp"
+    android:layout_weight="1"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/chat_home_graph" />
+
+    <!-- AdView container ở cuối cùng -->
+<FrameLayout
+android:id="@+id/ad_view_container"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_gravity="center_horizontal"> <!-- Bỏ layout_alignParentBottom vì không cần trong LinearLayout -->
+<com.google.android.gms.ads.AdView
+    android:id="@+id/adView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    app:adSize="BANNER"
+    app:adUnitId="ca-app-pub-2678727679739567/4181876797"/>
+</FrameLayout>
+
+    </LinearLayout>

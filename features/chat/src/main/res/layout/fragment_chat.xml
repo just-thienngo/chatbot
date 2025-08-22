@@ -1,71 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    >
+    android:background="@color/black">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        android:layout_above="@id/bottom_layout"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/welcome_text"
-        android:layout_centerInParent="true"
-        android:text="Chat AI by Chi Thien"
-        android:gravity="center"
-        android:textSize="28dp"
-        />
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:padding="8dp"
-        android:background="@drawable/rounded_corners_background"
-        android:id="@+id/bottom_layout">
-        <EditText
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scrollbars="vertical" />
+
+
+        <!-- Layout nhập tin nhắn -->
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/message_edit_text"
-            android:layout_centerInParent="true"
-            android:hint="Write here "
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:padding="16dp"
-            android:layout_toLeftOf="@id/send_btn"
-            android:background="@drawable/rounded_corner"
-            />
-
-
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/send_btn"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
             android:padding="8dp"
-            android:src="@drawable/ic_vector"
-            android:background="@drawable/ic_ellipse"
-            />
-        <ImageView
-            android:layout_width="40dp"
+            android:background="@drawable/rounded_corners_background"> <!-- Đã xóa android:layout_marginBottom="50dp" -->
+
+            <!-- Ô nhập tin nhắn -->
+            <EditText
+                android:id="@+id/message_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/send_btn"
+                android:layout_centerVertical="true"
+                android:hint="Write here..."
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:background="@drawable/rounded_corner" />
+
+            <!-- Nút micro -->
+            <ImageView
+                android:id="@+id/micro_btn"
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_micro"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="65dp"
+                android:layout_alignParentEnd="true" />
+
+            <!-- Nút gửi -->
+            <ImageButton
+                android:id="@+id/send_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_vector"
+                android:background="@drawable/ic_ellipse"
+                android:padding="8dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Error Overlay Layout -->
+    <FrameLayout
+        android:id="@+id/error_overlay_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#DD000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/error_message_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/micro_btn"
-            android:src="@drawable/ic_micro"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="65dp"
-            />
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="An error occurred. Tap to dismiss." />
 
-
-    </RelativeLayout>
-
-
-
-</RelativeLayout>
+    </FrameLayout>
+</FrameLayout>
