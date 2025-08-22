@@ -38,7 +38,7 @@ class LaunchActivity: AppCompatActivity() {
         binding.logo.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
         if (NetworkUtils.isNetworkAvailable(this)) {
-            lifecycleScope.launch {
+            lifecycleScope.launch() {
                 delay(1000)
                 val intent = Intent(this@LaunchActivity, LoginRegisterActivity::class.java)
                 startActivity(intent)
